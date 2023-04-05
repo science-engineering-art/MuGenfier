@@ -8,7 +8,6 @@ import aiofiles
 from typing import Annotated
 
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
