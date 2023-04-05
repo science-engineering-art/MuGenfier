@@ -20,7 +20,7 @@ const GenreClassifier = () => {
     var form = new FormData();
     form.append("file", music);
   
-    await fetch('http://localhost:5000/', {
+    await fetch('http://localhost:8000/', {
       method: 'POST',
       body: form
     }).then(res => res.json())

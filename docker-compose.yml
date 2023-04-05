@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: ./src/docker/api/Dockerfile
+    environment:
+      USER_ID: $(id -u)
+      GROUP_ID: $(id -g)
+    volumes:
+      - ./src/api:/usr/src/api
+      - ./src/model:/usr/src/model
+    ports:
+      - 8000:8000
