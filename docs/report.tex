@@ -164,6 +164,52 @@
     \todo{TODO}
 
 	\section{Propuesta}
+	\subsection{Autoencoder}
+Una de las ideas implementadas para hacer uno de los clasificadores de nuestro ensemble combina análisis de la letra con un embedding y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta conbinación de features. \\
+Para construir el encoder se programó un autoencoder y se tomó el modelo hasta el bottleneck para sacar el encoder. La arquitectura del autoencoder combinó capas maxpooling y upsampling al inicio y al final respectivamente para moderar el tamaño la imagen, intercaladas con capas convolucionales y en el medio tuvo un par de capas densas para aprovechar que ya el número de dimensiones era relativamente pequeño y realizar un poco más de aprendizaje. La arquitectura en detalle es la siguente:
+\begin{center}
+  \begin{tabular}{ | c | c | c |}
+    \hline
+    \textbf{Nombre de la capa} & \textbf{Tipo de la capa} & \textbf{Shape de salida} \\ \hline
+    $input_l$ & Input & (192, 256, 3) \\ \hline
+    $maxp_{ini}$ & MaxPooling2D & (96, 128, 3) \\ \hline
+    $encoding_1$ & Conv2D & (96, 128, 12) \\ \hline
+    $maxp_1$ & MaxPooling2D & (48, 64, 12) \\ \hline
+    $encoding_2$ & Conv2D & (48, 64, 6) \\ \hline
+    $maxp_2$ & MaxPooling2D & (24, 32, 6) \\ \hline
+    $encoding_3$ & Conv2D & (24, 32, 3) \\ \hline
+    $flat_1$ & Flatten & (2304) \\ \hline
+    $bottleneck$ & Dense & (500) \\ \hline
+    $decoding_1$ & Dense & (2304) \\ \hline
+    $resh_1$ & Reshape & (24, 32, 3) \\ \hline
+    $decoding_2$ & Conv2D & (24, 32, 6) \\ \hline
+    $Up_1$ & UpSampling2D & (48, 64, 6) \\ \hline
+    $decoding_3$ & Conv2D & (48, 64, 12) \\ \hline
+    $Up_2$ & UpSampling2D & (96, 128, 12) \\ \hline
+    $decoding_4$ & Conv2D & (96, 128, 3) \\ \hline
+    $output_l$ & UpSampling2D & (192, 256, 3) \\
+    \hline
+  \end{tabular}
+\end{center}
+
+Como se puede observar la arquitectura es casi simétrica.
+
+Se tomó como función de pérdida y métrica el error cuadrático medio ($\textit{mean squared error}$). La entrada del autoencoder y la salida esperada fueron las imágenes del feature MFCC del conjunto de entrenamiento luego de haber sido normalizadas, es decir, que en vez de estar en el rango $[0, 255]$ cada valor de la imagen de entrada, los representamos en el rango $[0, 1]$. 
+
+Anteriormente se probaron otras arquitecturas, desde algunas que no tenían capas densas hasta otras que principalmente consistían en capas densas. El problema en las arquitecturas carentes de capas densas era que sus resultados no eran lo suficientemente buenos, es decir, debido a su relativamente baja cantidad de parámetros el nivel de aprendizaje que podían lograr era inferior al que se logró luego con arquitecturas con capas densas. Por otro lado, las arquitecturas que consistían principalmente en capas densas tenían problemas como que los modelos eran muy grandes, algunos pasando de los GiB de almacenamiento y presentaban un problema para nosotros a la hora del entrenamiento. Otro problema que tienen las arquitecturas más basadas en capas densas es su tendencia al overfitting. En las prueba realizadas, las arquitecturas carentes de capas densas no presentaban este tipo de problema ya que los resultados en los conjuntos de entrenamiento, test y validación tenían poca diferencia entre ellos, sin embargo en las arquitecturas que tenían capas densas, por el gran número de parámetros si se evidencia una diferencia sustancial entre los resultados en los conjuntos de entrenamiento, y los obtenidos en los de prueba y validación. Al entrenar se realizó un $save$ cada $10$ epochs. Veamos los resultados sobre el número del $save$ en el modelo de autoencoder presentado:
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{overfitting_graph.png}
+\end{figure}
+
+A partir del análisis de la gráfica anterior se tomó como cantidad de epochs a ejecutar la cantidad de $150$, ya que se conjeturó (y luego validó) que el comportamiento del modelo en el conjunto de prueba sería muy similar al comportamiento en el conjunto de validación y en este punto es que se obtiene un mejor performance en el conjunto de prueba. 
+
+Volviendo atrás, los resultados obtenidos para cada tipo de modelo:
+\begin{itemize}
+	\item los modelos que no tenían capas densas lograron primeramente un error (MSE) de $0.0025$ y luego de ampliar la   cantidad de dimensiones que salen del bottleneck, es decir la cantidad de dimensiones de la representación se logró $0.0021$. Estos modelos tenían muy poco overfitting luego de $500$ epochs.
+	\item los modelos que presentan capas densas, por su parte, comenzaron con resultados en el conjunto de entrenamiento de hasta $0.0011$ con $500$ epochs, lo cual era muy bueno pero podía implicar overfitting. A medida que se redujeron la cantidad de parámetros (de $288$ millones a los $2.3$ millones del modelo propuesto) los resultados en el conjunto de entrenamiento fueron peores pero nunca sobrepasaron el valor de $0.0013$ en $500$ epochs. Luego de correr el modelo propuesto solo $150$ epochs se obtuvieron los mejores resultados tanto en el conjunto de prueba como en el validación, oscilando alrededor de $0.00185$, por su lado en el conjunto de entrenamiento se obtuvieron resultados alrededor de $0.0016$, lo que evidencia la presencia de overfitting.
+\end{itemize}
+
+Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados obtenidos en el entrenamiento del modelo sobre el conjunto de entrenamiento y luego evaluado sobre el conjunto de validación. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
 
     \todo{TODO}
 
