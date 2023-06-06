@@ -156,7 +156,9 @@ dist-ssr
 *.sln
 *.sw?
 
+model_storage
 dataset
+ebddmodel\model_storage\
 SOTA
 *.zip
 src/model/preprocessing.py
