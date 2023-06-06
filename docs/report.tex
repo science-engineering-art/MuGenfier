@@ -164,8 +164,12 @@
     \todo{TODO}
 
 	\section{Propuesta}
+	
+	
+	
+Hasta ahora hemos implementado algunas de las ideas m\'as exitosas para clasificar g\'eneros musicales que se pueden encontrar en el estado del arte. Pero resulta que ninguna de estas hace uso de la letra de la canci\'on, la cu\'al sabemos intuitivamente que puede aportar bastante informaci\'on sobre el g\'enero de la canci\'on. Por tanto, una idea implementada en este trabajo es hacer un modelo clasificador que conste de una red neuronal que combina análisis de la letra, mediante un embedding que represente a la misma, y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta combinación de features. 
+	
 	\subsection{Autoencoder}
-Una de las ideas implementadas para hacer uno de los clasificadores de nuestro ensemble combina análisis de la letra con un embedding y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta conbinación de features. \\
 Para construir el encoder se programó un autoencoder y se tomó el modelo hasta el bottleneck para sacar el encoder. La arquitectura del autoencoder combinó capas maxpooling y upsampling al inicio y al final respectivamente para moderar el tamaño la imagen, intercaladas con capas convolucionales y en el medio tuvo un par de capas densas para aprovechar que ya el número de dimensiones era relativamente pequeño y realizar un poco más de aprendizaje. La arquitectura en detalle es la siguente:
 \begin{center}
   \begin{tabular}{ | c | c | c |}
@@ -211,6 +215,17 @@ Volviendo atrás, los resultados obtenidos para cada tipo de modelo:
 
 Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados obtenidos en el entrenamiento del modelo sobre el conjunto de entrenamiento y luego evaluado sobre el conjunto de validación. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
 
+\subsection{Feature: Letra de la canci\'on}
+
+La segunda mitad de la informaci\'on de la que queremos que nuestro modelo aprenda es la letra de la canci\'on. Para ello lo primero que se hace es extraer la misma haciendo uso del conocido modelo de Whisper (ver \cite{whisper}). Luego necesitamos un embedding que represente al texto de la canci\'on que vamos a necesitar para entrenar y evaluar el modelo. Para extraer el mismo hacemos uso de otro modelo de aprendizaje de m\'aquinas conocido como Bert (ver \cite{bert}). Este \'ultimo es un modelo basado en redes neuronales para el procesamiento de lenguaje natural, desarrollado por Google.
+
+\subsection{Arquitectura del modelo}
+
+Una vez obtenidos los dos embedding correspondientes a la letra de la canci\'on y la m\'usica (MFCC) ya tenemos la entrada de nuestra red neuronal. La misma ser\'a la concatenaci\'on de los dos vectores obtenidos. Luego las siguientes capas ....\todo{arquitectura final}.
+ 
+ 
+
+
     \todo{TODO}
 
 	\section{Tests}
@@ -222,6 +237,10 @@ Se realizó también cross validation con Kfold dividiendo todo el conjunto de e
     \todo{TODO}
     
 \begin{thebibliography}{20}
+	\bibitem{whisper} A. Radford, J. Wook Kim, T. Xu, G. Brockman, C. McLeavey y I. Sutskever: \emph{RobustSpeechRecognitionviaLarge-ScaleWeakSupervision}. Preprint on arXiv: 2212.04356, 2022. 
+	
+		\bibitem{bert} J. Devlin, M. Chang, K. Lee y K. Toutanova: \emph{BERT:Pre-trainingofDeepBidirectionalTransformersfor LanguageUnderstanding}. Preprint on arXiv: 1810.04805, 2018. 
+	
 	\bibitem{murphy} Kevin P. Murphy: \emph{Machine Learning: A Probabilistic Perspective}. MIT Press, 2012.
 	
     \todo{TODO}
