@@ -160,3 +160,4 @@ dataset
 SOTA
 *.zip
 src/model/preprocessing.py
+src/model/storage/encoder_model.keras
