@@ -24,7 +24,7 @@ GENRES = ['blues', 'classical', 'country', 'disco', \
     'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock']
 
 
-# encoder = tf.keras.saving.load_model(f'storage/encoder_model.keras')
+encoder = tf.keras.saving.load_model(f'storage/encoder_model.keras')
 
 # Fix seed to make training deterministic.
 
