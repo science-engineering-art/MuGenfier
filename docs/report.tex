@@ -21,7 +21,7 @@
 
 %\documentclass[10pt]{article} % Single column
 
-\documentclass[colorinlistoftodos,twoside,twocolumn]{article} % Two column
+\documentclass[colorinlistoftodos,twoside,twocolumn,10pt]{article} % Two column
 
 \usepackage{blindtext} % Package to generate dummy text throughout this template 
 
@@ -32,7 +32,7 @@
 
 \usepackage[spanish]{babel} % Language hyphenation and typographical rules
 
-\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hmarginratio=1:1,top=20mm,columnsep=15mm, left=12mm, right=12mm, bottom=25mm]{geometry} % Document margins
 \usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
 \usepackage{booktabs} % Horizontal rules in tables
 
@@ -91,9 +91,9 @@
 } % Article title
 \author{% 
 	\normalsize\textsc{Integrantes:}\\
-	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-41X}\\[2ex]
-	\normalsize\textsc{Niley Gonz\'alez Ferrales.  C-411}\\[2ex]
-	\normalsize\textsc{Arian Pazo Valido.  C-311} \\[2ex]
+	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-41X}\\
+	\normalsize\textsc{Niley Gonz\'alez Ferrales  C-411}\\
+	\normalsize\textsc{Arian Pazo Valido  C-311} \\[2ex]
 	%\normalsize\textsc{Grupo: C-41X} \\[2ex]
 	\small Cuarto a\~no. Ciencias de la Computaci\'on. \\ % institution
 	\small Facultad de Matem\'atica y Computaci\'on, Universidad de La Habana, Cuba \\ % institution
@@ -148,8 +148,6 @@
 	\pagenumbering{gobble}
 	\begin{abstract}
 
-		\todo{TODO}
-
 		\vspace{1em}
 		\keywords{ 
 			aprendizaje automático \textbf{$\cdot$} clasificación \textbf{$\cdot$}  géneros musicales \textbf{$\cdot$} transformada wavelet discreta \textbf{$\cdot$} transformada wavelet compleja de doble árbol
@@ -163,8 +161,7 @@
 	
 	\section{Introducción}
 	
-    \todo{TODO}
-	   
+	 La clasificación de géneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con éxito en los últimos años. Aunque la Transformada de Fourier tiene una alta resolución en el dominio de la frecuencia, tiene una resolución cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qué frecuencias están presentes en una señal, pero no en qué lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar señales con un espectro de frecuencias dinámico es la Transformada Wavelet. Esta tiene una alta resolución tanto en el dominio de la frecuencia como en el del tiempo. Además, la Transformada Wavelet puede proporcionar una resolución de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser útil en la clasificación de géneros musicales, donde ciertos géneros pueden tener patrones rítmicos más rápidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por último, la Transformada Wavelet, ya que utiliza pocos datos para representar una señal puede ser útil en la clasificación de géneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en términos de tiempo y recursos computacionales.   
 
 	\section{Propuesta}
 	
@@ -204,8 +201,9 @@ Como se puede observar la arquitectura es casi simétrica.
 Se tomó como función de pérdida y métrica el error cuadrático medio ($\textit{mean squared error}$). La entrada del autoencoder y la salida esperada fueron las imágenes del feature MFCC del conjunto de entrenamiento luego de haber sido normalizadas, es decir, que en vez de estar en el rango $[0, 255]$ cada valor de la imagen de entrada, los representamos en el rango $[0, 1]$. 
 
 Anteriormente se probaron otras arquitecturas, desde algunas que no tenían capas densas hasta otras que principalmente consistían en capas densas. El problema en las arquitecturas carentes de capas densas era que sus resultados no eran lo suficientemente buenos, es decir, debido a su relativamente baja cantidad de parámetros el nivel de aprendizaje que podían lograr era inferior al que se logró luego con arquitecturas con capas densas. Por otro lado, las arquitecturas que consistían principalmente en capas densas tenían problemas como que los modelos eran muy grandes, algunos pasando de los GiB de almacenamiento y presentaban un problema para nosotros a la hora del entrenamiento. Otro problema que tienen las arquitecturas más basadas en capas densas es su tendencia al overfitting. En las prueba realizadas, las arquitecturas carentes de capas densas no presentaban este tipo de problema ya que los resultados en los conjuntos de entrenamiento, test y validación tenían poca diferencia entre ellos, sin embargo en las arquitecturas que tenían capas densas, por el gran número de parámetros si se evidencia una diferencia sustancial entre los resultados en los conjuntos de entrenamiento, y los obtenidos en los de prueba y validación. Al entrenar se realizó un $save$ cada $10$ epochs. Veamos los resultados sobre el número del $save$ en el modelo de autoencoder presentado:
+
 \begin{figure}[h!]
-  \includegraphics[width=\linewidth]{overfitting_graph.png}
+  \includegraphics[width=5cm]{overfitting_graph.png}
 \end{figure}
 
 A partir del análisis de la gráfica anterior se tomó como cantidad de epochs a ejecutar la cantidad de $150$, ya que se conjeturó (y luego validó) que el comportamiento del modelo en el conjunto de prueba sería muy similar al comportamiento en el conjunto de validación y en este punto es que se obtiene un mejor performance en el conjunto de prueba. 
@@ -230,19 +228,19 @@ Una vez obtenidos los dos embedding correspondientes a la letra de la canci\'on 
 Como podemos ver en la siguiente gr\'afica el valor de ``accuracy'' de nuestro modelo para el training set es casi perfecto llegados al epoch n\'umero $300$. En el caso del conjunto de  datos de validaci\'on, que es el que nos da la efectividad de nuestro modelo, vemos que el accuracy crece r\'apidamente hasta llegar al valor $0.57$ alrededor del epoch $150$.
 
  \begin{figure}[h!]
- 	\includegraphics[width=\linewidth]{vl_accuracy.png}
+ 	\includegraphics[width=5cm]{vl_accuracy.png}
  \end{figure}
 
 Con m\'as capas y neuronas en nuestro modelo, este hac\'ia r\'apidamente overfitting, o sea en pocos epochs. Esto nos llev\'o a reducirlo a la arquitectura actual. Como podemos observar en la pr\'oxima gr\'afica la funci\'on de p\'erdida para los datos entrenantes decrece r\'apidamente acerc\'andose mucho a cero en el epoch $300$. En el caso de los datos de validaci\'on, vemos como a partir del epoch $100$ la red comienza a hacer overfitting, pero no es representativo. 
 
  \begin{figure}[h!]
-	\includegraphics[width=\linewidth]{vl_loss.png}
+	\includegraphics[width=5cm]{vl_loss.png}
 \end{figure}
 
 %Presentamos aqu\'i adem\'as la matriz de confusi\'on.
 
  \begin{figure}[h!]
-	\includegraphics[width=\linewidth]{vl_confussion_matrix.png}
+	\includegraphics[width=5cm]{vl_confussion_matrix.png}
 \end{figure}
 
 Finalmente con un accuracy de $0.57$ y con valor para la funci\'on de p\'erdida de  $2.9323$ llegamos a la conclusi\'on de que este modelo no arroja resultados que mejoren los obtenidos en los modelos ya vistos antes.
@@ -258,67 +256,61 @@ La clasificación de géneros basada en la Transformada de Fourier, utilizando M
     La DWT es un caso especial de Transformada Wavelet que proporciona una representación compacta de la señal en el tiempo y la frecuencia que se puede calcular de manera eficiente\cite{Musical Genre Classification Of Audio Signals}. La DT-CWT es una mejora relativamente reciente a DWT; ya que para señales moduladas complejas como el audio, DWT encuentra algunas pocas deficiencias: oscilaciones, varianza de desplazamiento, aliasing y falta de direccionalidad\cite{Wavelet Transform for Music Genre Classification}. 
     
     El pipeline para ambos métodos consiste en calcular las respectivas características para cada canción del dataset. Luego con la matriz obtenida se realiza un split de $80\%$ - $20\%$ y se entrena el modelo de machine learning elegido. Ajustando los hiperparámetros utilizando Cross-Validation.
-    \todo{TODO}
 
 	\section{Tests}
 
-    \todo{TODO}
+    
     	Para la implementación utilizando Transformadas Wavelet fueron probados varios modelos de machine learning tradicional como Logistic Regression, SVC, Linear SVC, Random Forest Classifier y Gradient Boosting Classifier. Como los dos últimos se comportan mejor en aproximadamente más de 10\% de precisión respecto al resto, decidimos enfocarnos en esos modelos . 
     
     Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  empíricamente, muestra el mejor comportamiento en muchas aplicaciones\cite{Wavelet Transform for Music Genre Classification}. Experimentamos con distintos órdenes de Daubechies wavelet, y db12 mostró el mejor comportamiento. Los mejores resultados para DWT fueron obtenidos con Random Forest; utilizando como parámetros: \emph{n\_estimators=100}, \emph{max\_depth=13}, \emph{bootstrap=False}. La precisión con este modelo se ubicaba alrededor de $0.77$. \\
 
 % \usepackage{subcaption}
-\begin{figure} % Start the main figure environment
-    \centering
-    \begin{subfigure}{0.45\linewidth} % First subfloat environment
+	\begin{figure} % Start the main figure environment
+		\centering
+		\begin{subfigure}{0.45\linewidth} % First subfloat environment
+			\includegraphics[width=4cm]{images/CV_DWT_gb.png}
+			\caption{DWT Gradient Boosting}
+		\end{subfigure}
+		\hskip 1em plus 1fill minus 1fil
+		\begin{subfigure}{0.45\linewidth} % Second subfloat environment
+			\includegraphics[width=4cm]{images/CV_DWT_rf.png}
+			\caption{DWT Random Forest}
+		\end{subfigure}
+		\caption{DWT Cross-Validation}
+	\end{figure}
 
-        \includegraphics[width=.95\linewidth]{images/CV_DWT_gb.png}         \caption{DWT Gradient Boosting}
-    \end{subfigure}
-    \hskip 1em plus 1fill minus 1fil
-    \begin{subfigure}{0.45\linewidth} % Second subfloat environment
-        \includegraphics[width=.95\linewidth]{images/CV_DWT_rf.png}         \caption{DWT Random Forest}
-    \end{subfigure}
-    \caption{ DWT Cross-Validation}
-\end{figure}
+	La Transformada Wavelet Compleja de Doble Árbol, mostró los mejores resultados con 17 niveles de descomposición para extraer los coeficientes wavelet. Se comporta mejor que DWT, alcanzando más de $0.8$ de precisión con Random Forest Classifier.  Además de las imagenes del Cross-Vlidation también reportamos una matriz de confusión para comprobar el comportamiento en cada género. Se observa que no se desempeña de la misma forma en todos los géneros, ya que hay algunos (como el metal o el jazz) donde se observan muy buenos resultados. \\
 
-  La Transformada Wavelet Compleja de Doble Árbol, mostró los mejores resultados con 17 niveles de descomposición para extraer los coeficientes wavelet. Se comporta mejor que DWT, alcanzando más de $0.8$ de precisión con Random Forest Classifier.  Además de las imagenes del Cross-Vlidation también reportamos una matriz de confusión para comprobar el comportamiento en cada género. Se observa que no se desempeña de la misma forma en todos los géneros, ya que hay algunos (como el metal o el jazz) donde se observan muy buenos resultados. \\
+	\begin{figure} % Start the main figure environment
+		\centering
+		\begin{subfigure}{0.45\linewidth} % First subfloat environment
 
-\begin{figure} % Start the main figure environment
-    \centering
-    \begin{subfigure}{0.45\linewidth} % First subfloat environment
+			\includegraphics[width=4cm]{images/CV_DTCWT_gb.png}         \caption{DTCWT Gradient Boosting}
+		\end{subfigure}
+		\hskip 1em plus 1fill minus 1fil
+		\begin{subfigure}{0.45\linewidth} % Second subfloat environment
+			\includegraphics[width=4cm]{images/CV_DTCWT_rf.png}         \caption{DTCWT Random Forest}
+		\end{subfigure}
+		\caption{DTCWT Cross-Validation}
+	\end{figure}
 
-        \includegraphics[width=.95\linewidth]{images/CV_DTCWT_gb.png}         \caption{DTCWT Gradient Boosting}
-    \end{subfigure}
-    \hskip 1em plus 1fill minus 1fil
-    \begin{subfigure}{0.45\linewidth} % Second subfloat environment
-        \includegraphics[width=.95\linewidth]{images/CV_DTCWT_rf.png}         \caption{DTCWT Random Forest}
-    \end{subfigure}
-    \caption{DTCWT Cross-Validation}
-\end{figure}
-
-\begin{figure} 
-    \centering    
-    \includegraphics[width=.8\linewidth]{images/conf_matrix_DTCWT.png}    
-    \caption{DTCWT Random Forest Matriz de Confusi\'on}
-\end{figure}
+	\begin{figure} 
+		\centering    
+		\includegraphics[width=4cm]{images/conf_matrix_DTCWT.png}    
+		\caption{DTCWT Random Forest Matriz de Confusi\'on}
+	\end{figure}
 
 	\section{Recomendaciones}
-	
-    \todo{TODO}
-    
-\begin{thebibliography}{20}
-	\bibitem{whisper} A. Radford, J. Wook Kim, T. Xu, G. Brockman, C. McLeavey y I. Sutskever: \emph{RobustSpeechRecognitionviaLarge-ScaleWeakSupervision}. Preprint on arXiv: 2212.04356, 2022. 
-	
+	    
+	\begin{thebibliography}{20}
+		\bibitem{whisper} A. Radford, J. Wook Kim, T. Xu, G. Brockman, C. McLeavey y I. Sutskever: \emph{RobustSpeechRecognitionviaLarge-ScaleWeakSupervision}. Preprint on arXiv: 2212.04356, 2022. 	
 		\bibitem{bert} J. Devlin, M. Chang, K. Lee y K. Toutanova: \emph{BERT:Pre-trainingofDeepBidirectionalTransformersfor LanguageUnderstanding}. Preprint on arXiv: 1810.04805, 2018. 
+		\bibitem{murphy} Kevin P. Murphy: \emph{Machine Learning: A Probabilistic Perspective}. MIT Press, 2012.
+		\bibitem{Wavelet Transform for Music Genre Classification} Pranav Vijaya Kumar Rao, Vishwas Nagesh Moolimani: \emph{ECG Analysis based feature extraction using Wavelet Transform for Music Genre Classification}, 2020. 
+		\bibitem{wavelet transform in machine learning} Ahmet Taspinar: \emph{A guide for using the wavelet transform in machine learning}, unpublished. [Online]. Available: http://ataspinar.com/2018/12/21/a-guide-for-using-the-wavelet-transform-in-machine-learning/
+		\bibitem{DT-CWT} Selesnick, I.W. and Baraniuk, R.G. and Kingsbury, N.C., \emph{The dual-tree complex wavelet transform}, 2005, IEEE Signal Processing Magazine, pp. 123-151.
+		\bibitem{Wavelets y sus Aplicaciones} Liliana R. Castro, Silvia M.  Castro: \emph{Wavelets y sus Aplicaciones}, ler. Congreso Argentino de Ciencias de la Computación, pp. 195-204.
+		\bibitem{Musical Genre Classification Of Audio Signals} George Tzanetakis, Georg Essl, Perry Cook: \emph{Automatic Musical Genre Classification Of Audio Signals}
+	\end{thebibliography}
 	
-	\bibitem{murphy} Kevin P. Murphy: \emph{Machine Learning: A Probabilistic Perspective}. MIT Press, 2012.
-	\bibitem{Wavelet Transform for Music Genre Classification} Pranav Vijaya Kumar Rao, Vishwas Nagesh Moolimani: \emph{ECG Analysis based feature extraction using Wavelet Transform for Music Genre Classification}, 2020. 
-	\bibitem{wavelet transform in machine learning} Ahmet Taspinar: \emph{A guide for using the wavelet transform in machine learning}, unpublished. [Online]. Available: http://ataspinar.com/2018/12/21/a-guide-for-using-the-wavelet-transform-in-machine-learning/
-	\bibitem{DT-CWT} Selesnick, I.W. and Baraniuk, R.G. and Kingsbury, N.C., \emph{The dual-tree complex wavelet transform}, 2005, IEEE Signal Processing Magazine, pp. 123-151.
-	\bibitem{Wavelets y sus Aplicaciones} Liliana R. Castro, Silvia M.  Castro: \emph{Wavelets y sus Aplicaciones}, ler. Congreso Argentino de Ciencias de la Computación, pp. 195-204.
-	\bibitem{Musical Genre Classification Of Audio Signals} George Tzanetakis, Georg Essl, Perry Cook: \emph{Automatic Musical Genre Classification Of Audio Signals}
-    \todo{TODO}
-	
-\end{thebibliography}
 \end{document}
-
