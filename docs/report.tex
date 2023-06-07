@@ -93,6 +93,8 @@
 	\normalsize\textsc{Integrantes:}\\
 	\normalsize\textsc{Marcos Tirador Del Riego  C-411}\\
 	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-411}\\
+	\normalsize\textsc{Victor Manuel Amador Sosa C-412}\\
+	\normalsize\textsc{Francisco Ayra Caceres C-412}\\
 	\normalsize\textsc{Niley Gonz\'alez Ferrales  C-411}\\
 	\normalsize\textsc{Arian Pazo Valido  C-311} \\[2ex]
 	%\normalsize\textsc{Grupo: C-41X} \\[2ex]
@@ -258,6 +260,61 @@ La clasificación de géneros basada en la Transformada de Fourier, utilizando M
     La DWT es un caso especial de Transformada Wavelet que proporciona una representación compacta de la señal en el tiempo y la frecuencia que se puede calcular de manera eficiente\cite{Musical Genre Classification Of Audio Signals}. La DT-CWT es una mejora relativamente reciente a DWT; ya que para señales moduladas complejas como el audio, DWT encuentra algunas pocas deficiencias: oscilaciones, varianza de desplazamiento, aliasing y falta de direccionalidad\cite{Wavelet Transform for Music Genre Classification}. 
     
     El pipeline para ambos métodos consiste en calcular las respectivas características para cada canción del dataset. Luego con la matriz obtenida se realiza un split de $80\%$ - $20\%$ y se entrena el modelo de machine learning elegido. Ajustando los hiperparámetros utilizando Cross-Validation.
+
+\section{Introducción a COnv1D}
+Este código implementa un modelo de red neuronal convolucional unidimensional (CNN 1D) para clasificar géneros de música. El modelo se basa en la arquitectura de ResNet, una popular red neuronal convolucional utilizada para tareas de clasificación. La elección de una red 1D permite al modelo procesar directamente señales de audio, lo que lo hace especialmente útil para esta tarea de clasificación de géneros musicales.
+
+\section{Método}
+Lo interesante y diferente en este enfoque es que, en lugar de usar características de audio pre-extraídas, el modelo aprende directamente de las formas de onda de audio. Esto puede resultar en un modelo más flexible que puede aprender representaciones más útiles para la tarea en cuestión.
+
+La idea principal del modelo es tomar una señal de audio, pasarla a través de una serie de capas convolucionales para extraer características útiles, y luego usar esas características para clasificar la señal en uno de los géneros musicales.
+
+El código se divide en varias partes:
+\begin{itemize}
+\item Carga de archivos de audio: Se usa la biblioteca librosa para cargar los archivos de audio con una frecuencia de muestreo de 22050 Hz.
+\item Preprocesamiento de los datos: Los géneros se codifican en representaciones numéricas y los datos se dividen en conjuntos de entrenamiento, validación y prueba.
+\item Construcción del modelo: Se define un modelo de red neuronal convolucional 1D con varias capas, incluyendo capas convolucionales, una capa de agrupación (pooling), y una capa densa (fully connected).
+\item Entrenamiento del modelo: El modelo se entrena en los datos de entrenamiento, utilizando una función de pérdida de entropía cruzada categórica y el optimizador Adam.
+\end{itemize}
+
+\section{Discusión}
+Sin embargo, cabe mencionar que, aunque el modelo está inspirado en la arquitectura ResNet, la implementación en el código no incluye las conexiones de atajo (shortcut connections) que caracterizan a ResNet. Estas conexiones permiten que las señales pasen directamente a través de la red, ayudando a combatir el problema del desvanecimiento del gradiente durante el entrenamiento de redes profundas. A pesar de la ausencia de estas conexiones, el modelo aún puede ser efectivo para la tarea de clasificación de géneros de música. Los trabajos futuros podrían considerar la implementación de las conexiones de atajo para recrear más fielmente la arquitectura ResNet y potencialmente mejorar el rendimiento.
+
+
+\section*{Integración en Google Colab}
+
+El ensamblaje del modelo de entrenamiento que implementamos de Red Neuronal Convolucional 1D, o Conv1D, fue realizado en Google Colab. Este proceso fue necesario debido a la falta de recursos para el entrenamiento de la estructura de datos necesaria. También nos beneficiamos de la capacidad de Google Colab para manejar las multiplicaciones de inmensas matrices que se realizan durante los algoritmos de propagación hacia adelante y hacia atrás en el entrenamiento de la red.
+
+El modelo es entregado en formato Jupyter Notebook (extensión .ipynb), lo que facilita la claridad y separación en módulos, así como la ejecución de partes específicas del código según sea necesario. Para una ejecución más fácil del modelo, se recomienda ejecutar el notebook desde Google Colab. Esto agilizará las descargas necesarias y evitará la necesidad de instalar módulos como 'tensorflow' y 'numpy', que ya están incluidos en el entorno de ejecución de Python en Google Colab.
+
+La ejecución y el entrenamiento del modelo se dividen en cuatro partes fundamentales:
+
+\begin{enumerate}
+\item Importación de la biblioteca 'os' de Python.
+\item Sincronización con Google Drive.
+\item Descarga e importación del dataset GTZAN.
+\item Entrenamiento del modelo.
+\end{enumerate}
+
+\subsection*{1. Importación de la biblioteca 'os' de Python}
+
+La importación de la biblioteca 'os' de Python es necesaria para trabajar con el dataset de forma local después de la descarga.
+
+\subsection*{2. Sincronización con Google Drive}
+
+La sincronización con la cuenta de Google Drive nos permite trabajar con el dataset desde la nube, evitando la necesidad de descargarlo a nuestra PC. Una vez que se ejecuta el código identificado en el notebook para este propósito, nuestro almacenamiento en Google Drive será accesible.
+
+\subsection*{3. Descarga e importación del dataset GTZAN}
+
+El código para descargar e importar el dataset GTZAN solo necesita ser ejecutado una vez. Después de descargar el dataset GTZAN, lo tendremos localmente para usarlo cuantas veces sea necesario.
+
+La descarga se realiza desde Kaggle, una plataforma que proporciona una gran cantidad de datasets y ofrece una API que nos permite descargar casi todos ellos. Los pasos detallados para descargar el dataset GTZAN desde Kaggle se explican en el notebook.
+
+\subsection*{4. Entrenamiento del modelo}
+
+Inicialmente, concebimos el entrenamiento del modelo trabajando directamente con los audios. Sin embargo, al investigar la clasificación de géneros musicales y trabajar con música en general, optamos por trabajar con histogramas de las canciones. Aunque dejamos ambos enfoques en el modelo, es importante solo ejecutar uno de los dos. Las instrucciones detalladas para el entrenamiento del modelo se encuentran en el notebook.
+
+\end{document}
 
 	\section{Tests}
 
