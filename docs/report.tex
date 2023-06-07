@@ -91,7 +91,8 @@
 } % Article title
 \author{% 
 	\normalsize\textsc{Integrantes:}\\
-	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-41X}\\
+	\normalsize\textsc{Marcos Tirador Del Riego  C-411}\\
+	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-411}\\
 	\normalsize\textsc{Niley Gonz\'alez Ferrales  C-411}\\
 	\normalsize\textsc{Arian Pazo Valido  C-311} \\[2ex]
 	%\normalsize\textsc{Grupo: C-41X} \\[2ex]
@@ -161,7 +162,7 @@
 	
 	\section{Introducción}
 	
-	 La clasificación de géneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con éxito en los últimos años. Aunque la Transformada de Fourier tiene una alta resolución en el dominio de la frecuencia, tiene una resolución cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qué frecuencias están presentes en una señal, pero no en qué lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar señales con un espectro de frecuencias dinámico es la Transformada Wavelet. Esta tiene una alta resolución tanto en el dominio de la frecuencia como en el del tiempo. Además, la Transformada Wavelet puede proporcionar una resolución de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser útil en la clasificación de géneros musicales, donde ciertos géneros pueden tener patrones rítmicos más rápidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por último, la Transformada Wavelet, ya que utiliza pocos datos para representar una señal puede ser útil en la clasificación de géneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en términos de tiempo y recursos computacionales.   
+	 La clasificación de géneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con éxito en los últimos años. Aunque la Transformada de Fourier tiene una alta resolución en el dominio de la frecuencia, tiene resolución cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qué frecuencias están presentes en una señal, pero no en qué lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar señales con un espectro de frecuencias dinámico es la Transformada Wavelet. Esta tiene una alta resolución tanto en el dominio de la frecuencia como en el del tiempo. Además, la Transformada Wavelet puede proporcionar una resolución de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser útil en la clasificación de géneros musicales, donde ciertos géneros pueden tener patrones rítmicos más rápidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por último, la Transformada Wavelet, ya que utiliza pocos datos para representar una señal puede ser útil en la clasificación de géneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en términos de tiempo y recursos computacionales.   
 
 	\section{Propuesta}
 	
@@ -216,7 +217,7 @@ Volviendo atrás, los resultados obtenidos para cada tipo de modelo:
 
 \subsection{Feature: Letra de la canci\'on}
 
-La segunda mitad de la informaci\'on de la que queremos que nuestro modelo aprenda es la letra de la canci\'on. Para ello lo primero que se hace es extraer la misma haciendo uso del conocido modelo de Whisper (ver \cite{whisper}). Luego necesitamos un embedding que represente al texto de la canci\'on que vamos a necesitar para entrenar y evaluar el modelo. Para extraer el mismo hacemos uso de otro modelo de aprendizaje de m\'aquinas conocido como Bert (ver \cite{bert}). Este \'ultimo es un modelo basado en redes neuronales para el procesamiento de lenguaje natural, desarrollado por Google.
+La segunda mitad de la informaci\'on de la que queremos que nuestro modelo aprenda es la letra de la canci\'on. Para ello lo primero que se hace es extraer la misma haciendo uso del conocido modelo de Whisper (ver \cite{whisper}). Luego necesitamos un embedding que represente al texto de la canci\'on que servir\'a de entrada al modelo. Para extraer el mismo hacemos uso de otro modelo de aprendizaje de m\'aquinas conocido como Bert (ver \cite{bert}). Este \'ultimo es un modelo basado en redes neuronales para el procesamiento de lenguaje natural, desarrollado por Google.
 
 \subsection{Arquitectura del modelo}
 
@@ -225,7 +226,7 @@ Una vez obtenidos los dos embedding correspondientes a la letra de la canci\'on 
 
 \subsection{Resultados}
 
-Como podemos ver en la siguiente gr\'afica el valor de ``accuracy'' de nuestro modelo para el training set es casi perfecto llegados al epoch n\'umero $300$. En el caso del conjunto de  datos de validaci\'on, que es el que nos da la efectividad de nuestro modelo, vemos que el accuracy crece r\'apidamente hasta llegar al valor $0.57$ alrededor del epoch $150$.
+Como podemos ver en la siguiente gr\'afica el valor de accuracy de nuestro modelo para el training set es casi perfecto llegados al epoch n\'umero $300$. En el caso del conjunto de  datos de validaci\'on, que es el que nos da la efectividad de nuestro modelo, vemos que el accuracy crece r\'apidamente hasta llegar al valor $0.57$ alrededor del epoch $150$.
 
  \begin{figure}[h!]
  	\includegraphics[width=5cm]{vl_accuracy.png}
@@ -245,7 +246,7 @@ Con m\'as capas y neuronas en nuestro modelo, este hac\'ia r\'apidamente overfit
 
 Finalmente con un accuracy de $0.57$ y con valor para la funci\'on de p\'erdida de  $2.9323$ llegamos a la conclusi\'on de que este modelo no arroja resultados que mejoren los obtenidos en los modelos ya vistos antes.
 
-Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados anteriormente descrito. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
+Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados anteriormente descritos. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
 	\subsection{Wavelets}
 
 La clasificación de géneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con éxito en los últimos años. Aunque la Transformada de Fourier tiene una alta resolución en el dominio de la frecuencia, tiene una resolución cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qué frecuencias están presentes en una señal, pero no en qué lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar señales con un espectro de frecuencias dinámico es la Transformada Wavelet. Esta tiene una alta resolución tanto en el dominio de la frecuencia como en el del tiempo. Además, la Transformada Wavelet puede proporcionar una resolución de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser útil en la clasificación de géneros musicales, donde ciertos géneros pueden tener patrones rítmicos más rápidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por último, la Transformada Wavelet, ya que utiliza pocos datos para representar una señal puede ser útil en la clasificación de géneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en términos de tiempo y recursos computacionales. 
@@ -260,9 +261,9 @@ La clasificación de géneros basada en la Transformada de Fourier, utilizando M
 	\section{Tests}
 
     
-    	Para la implementación utilizando Transformadas Wavelet fueron probados varios modelos de machine learning tradicional como Logistic Regression, SVC, Linear SVC, Random Forest Classifier y Gradient Boosting Classifier. Como los dos últimos se comportan mejor en aproximadamente más de 10\% de precisión respecto al resto, decidimos enfocarnos en esos modelos . 
+    	Para la implementación utilizando Transformadas Wavelet fueron probados varios modelos de machine learning tradicionales como Logistic Regression, SVC, Linear SVC, Random Forest Classifier y Gradient Boosting Classifier. Como los dos últimos se comportan mejor respecto al resto, con una precisi\'on superior en un 10\%, decidimos enfocarnos en esos modelos . 
     
-    Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  empíricamente, muestra el mejor comportamiento en muchas aplicaciones\cite{Wavelet Transform for Music Genre Classification}. Experimentamos con distintos órdenes de Daubechies wavelet, y db12 mostró el mejor comportamiento. Los mejores resultados para DWT fueron obtenidos con Random Forest; utilizando como parámetros: \emph{n\_estimators=100}, \emph{max\_depth=13}, \emph{bootstrap=False}. La precisión con este modelo se ubicaba alrededor de $0.77$. \\
+    Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  empíricamente muestra el mejor comportamiento en muchas aplicaciones\cite{Wavelet Transform for Music Genre Classification}. Experimentamos con distintos órdenes de Daubechies wavelet, y db12 mostró el mejor comportamiento. Los mejores resultados para DWT fueron obtenidos con Random Forest; utilizando como parámetros: \emph{n\_estimators=100}, \emph{max\_depth=13}, \emph{bootstrap=False}. La precisión con este modelo se ubicaba alrededor de $0.77$. \\
 
 % \usepackage{subcaption}
 	\begin{figure} % Start the main figure environment
