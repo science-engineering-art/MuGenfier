@@ -111,9 +111,10 @@ def load_data(src: str,
     return (np.array([tf.convert_to_tensor(data) for img in df['ebdd']]), df[GENRES])
 
 
-# create_mfcc_embedding()
+#the embeddings can be downloaded from here: https://drive.google.com/file/d/1YNlG1jlRcwyKRF6iSLce5-He1EodpiDW/view?usp=drive_link
+create_mfcc_embedding()
 
-X_train, Y_train = load_data('./dataset/split/training/features', GENRES)
-X_test, Y_test = load_data('./dataset/split/tests/features', GENRES)
-X_val, Y_val = load_data('./dataset/split/validation/features', GENRES)
+# X_train, Y_train = load_data('./dataset/split/training/features', GENRES)
+# X_test, Y_test = load_data('./dataset/split/tests/features', GENRES)
+# X_val, Y_val = load_data('./dataset/split/validation/features', GENRES)
 

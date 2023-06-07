@@ -127,7 +127,9 @@ def get_transcription(path):
                     print("dumb json deleted")
                 except:
                     pass
-            
+
+
+#the embeddings for gtzan can be downloaded from here: https://drive.google.com/file/d/1YNlG1jlRcwyKRF6iSLce5-He1EodpiDW/view?usp=drive_link            
 if __name__ == '__main__':    
     
     for set in SETS:
