@@ -95,9 +95,9 @@
 	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-411}\\
 	\normalsize\textsc{Victor Manuel Amador Sosa C-412}\\
 	\normalsize\textsc{Francisco Ayra Caceres C-412}\\
+	\normalsize\textsc{Ra\'ul Beltr\'an G\ómez C-412}\\
 	\normalsize\textsc{Niley Gonz\'alez Ferrales  C-411}\\
 	\normalsize\textsc{Arian Pazo Valido  C-311} \\[2ex]
-	%\normalsize\textsc{Grupo: C-41X} \\[2ex]
 	\small Cuarto a\~no. Ciencias de la Computaci\'on. \\ % institution
 	\small Facultad de Matem\'atica y Computaci\'on, Universidad de La Habana, Cuba \\ % institution
 }
@@ -151,9 +151,11 @@
 	\pagenumbering{gobble}
 	\begin{abstract}
 
+La clasificación de géneros musicales juega un papel crucial en las aplicaciones modernas de procesamiento de señales de audio digital. En este estudio, proponemos varios enfoques de aprendizaje automático para categorizar con precisión pistas de música en géneros predefinidos. Cada enfoque utiliza diversos conjuntos de características que se pueden extraer de las canciones; desde los comunes: MFCC, señal de audio directa; hasta características poco exploradas en este problema: letra de la canción, Transformada de Wavelet. Para evaluar los modelos utilizamos el dataset de referencia en el campo, GTZAN. En los resultados obtenidos destaca que la letra de la canción no aporta mucho a la clasificación, al menos en el dataset utilizado. Los otros modelos muestran resultados consistentes con el estado del arte, con una precisión entre $75\%$ y $80\%$
+
 		\vspace{1em}
 		\keywords{ 
-			aprendizaje automático \textbf{$\cdot$} clasificación \textbf{$\cdot$}  géneros musicales \textbf{$\cdot$} transformada wavelet discreta \textbf{$\cdot$} transformada wavelet compleja de doble árbol
+			aprendizaje automático \textbf{$\cdot$} clasificación \textbf{$\cdot$}  géneros musicales \textbf{$\cdot$} MFCC  \textbf{$\cdot$} CNN  \textbf{$\cdot$} Conv1D \textbf{$\cdot$} transformada wavelet discreta \textbf{$\cdot$} transformada wavelet compleja de doble árbol  \textbf{$\cdot$} encoder  \textbf{$\cdot$} letra de canciones 
 		}
 
 	\end{abstract}
@@ -163,9 +165,16 @@
 	%----------------------------------------------------------------------------------------
 	
 	\section{Introducción}
-	
-	 La clasificación de géneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con éxito en los últimos años. Aunque la Transformada de Fourier tiene una alta resolución en el dominio de la frecuencia, tiene resolución cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qué frecuencias están presentes en una señal, pero no en qué lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar señales con un espectro de frecuencias dinámico es la Transformada Wavelet. Esta tiene una alta resolución tanto en el dominio de la frecuencia como en el del tiempo. Además, la Transformada Wavelet puede proporcionar una resolución de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser útil en la clasificación de géneros musicales, donde ciertos géneros pueden tener patrones rítmicos más rápidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por último, la Transformada Wavelet, ya que utiliza pocos datos para representar una señal puede ser útil en la clasificación de géneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en términos de tiempo y recursos computacionales.   
+	La clasificación automática de géneros musicales se ha vuelto cada vez más importante debido a la gran cantidad de música digitalizada disponible en la actualidad. El etiquetado de géneros preciso permite una organización, recuperación y recomendación eficientes de canciones, allanando el camino para experiencias personalizadas en servicios multimedia. La identificación de géneros es útil para crear listas de reproducción personalizadas, analizar las preferencias de los oyentes, recomendar artistas/canciones similares, detectar material con derechos de autor e identificar estados de ánimo asociados con ciertos géneros. Sin embargo, a pesar de la gran cantidad de soluciones y avances propuestos en el procesamiento de señales musicales, persisten varios problemas para lograr sistemas de reconocimiento de género robustos y eficientes.
 
+En primer lugar, la definición de géneros musicales sigue siendo controvertida, ya que la percepción humana varía mucho. Estas interpretaciones subjetivas conducen a anotaciones inconsistentes  y límites ambiguos entre géneros. Esta falta de consenso impide el desarrollo de modelos confiables capaces de generalizar a través de diferentes conjuntos de datos.
+
+Aunque los géneros se derivan de influencias culturales, históricas, sociales, geográficas, tecnológicas y creativas, por lo general se reducen a etiquetas binarias. Sin embargo, muchos estilos comparten atributos y se superponen, lo que los hace difíciles de distinguir. Además, los artistas mezclan con frecuencia diferentes géneros, lo que agrega complejidad al proceso de clasificación.
+
+En segundo lugar, la disponibilidad limitada de datos etiquetados de alta calidad plantea un gran desafío cuando se entrenan algoritmos de aprendizaje automático para la clasificación de géneros musicales. Debido al extenso tiempo que se requiere para etiquetar manualmente las pistas con géneros específicos, muchos investigadores recurren a conjuntos de datos pequeños o sintéticos, lo que lleva a modelos sobreajustados o inadecuados. Además, la obtención de colecciones más importantes a menudo implica derechos de licencia o barreras técnicas, lo que dificulta la accesibilidad y la reproducibilidad.
+
+Por último, los enfoques actuales de aprendizaje profundo se basan en gran medida en procedimientos de preentrenamiento computacionalmente costosos, lo que los hace intensivos en recursos. Los trabajos existentes suelen utilizar servicios en la nube o potentes GPU, lo que dificulta la implementación práctica sin hardware especializado o recursos financieros. 
+	  
 
 	\section{Wavelets}
 
@@ -180,13 +189,11 @@ La clasificación de géneros basada en la Transformada de Fourier, utilizando M
 
 	\subsection{Tests}
 
-
-Para la implementación utilizando Transformadas Wavelet fueron probados varios modelos de machine learning tradicionales como Logistic Regression, SVC, Linear SVC, Random Forest Classifier y Gradient Boosting Classifier. Como los dos últimos se comportan mejor respecto al resto, con una precisi\'on superior en un 10\%, decidimos enfocarnos en esos modelos . 
+  Fueron probados varios modelos de machine learning tradicionales como Logistic Regression, SVC, Linear SVC, Random Forest Classifier y Gradient Boosting Classifier. Como los dos últimos se comportan mejor respecto al resto, con una precisi\'on superior en un 10\%, decidimos enfocarnos en esos modelos . 
 
 Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  empíricamente muestra el mejor comportamiento en muchas aplicaciones\cite{Wavelet Transform for Music Genre Classification}. Experimentamos con distintos órdenes de Daubechies wavelet, y db12 mostró el mejor comportamiento. Los mejores resultados para DWT fueron obtenidos con Random Forest; utilizando como parámetros: \emph{n\_estimators=100}, \emph{max\_depth=13}, \emph{bootstrap=False}. La precisión con este modelo se ubicaba alrededor de $0.77$. \\
 
- \usepackage{subcaption}
-	\begin{figure} % Start the main figure environment
+	\begin{figure}[h!] % Start the main figure environment
 			\centering
 			\begin{subfigure}{0.45\linewidth} % First subfloat environment
 					\includegraphics[width=4cm]{images/CV_DWT_gb.png}
@@ -200,28 +207,79 @@ Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  empíricamente 
 			\caption{DWT Cross-Validation}
 		\end{figure}
 
-La Transformada Wavelet Compleja de Doble Árbol, mostró los mejores resultados con 17 niveles de descomposición para extraer los coeficientes wavelet. Se comporta mejor que DWT, alcanzando más de $0.8$ de precisión con Random Forest Classifier.  Además de las imagenes del Cross-Vlidation también reportamos una matriz de confusión para comprobar el comportamiento en cada género. Se observa que no se desempeña de la misma forma en todos los géneros, ya que hay algunos (como el metal o el jazz) donde se observan muy buenos resultados. \\
+La Transformada Wavelet Compleja de Doble Árbol, mostró los mejores resultados con 17 niveles de descomposición para extraer los coeficientes wavelet. Se comporta mejor que DWT, alcanzando más de $0.8$ de precisión con Random Forest Classifier.  
 
-	\begin{figure} % Start the main figure environment
+Además de las imagenes del Cross-Vlidation también reportamos una matriz de confusión para comprobar el comportamiento en cada género. Se observa que no se desempeña de la misma forma en todos los géneros, ya que hay algunos (como el metal o el jazz) donde se observan muy buenos resultados. \\
+
+	\begin{figure}[h!] % Start the main figure environment
 			\centering
 			\begin{subfigure}{0.45\linewidth} % First subfloat environment
 		
-					\includegraphics[width=4cm]{images/CV_DTCWT_gb.png}         \caption{DTCWT Gradient Boosting}
+				\includegraphics[width=4cm]{images/CV_DTCWT_gb.png}                   \caption{DTCWT Gradient Boosting}
 				\end{subfigure}
 			\hskip 1em plus 1fill minus 1fil
 			\begin{subfigure}{0.45\linewidth} % Second subfloat environment
-					\includegraphics[width=4cm]{images/CV_DTCWT_rf.png}         \caption{DTCWT Random Forest}
+					\includegraphics[width=4cm]{images/CV_DTCWT_rf.png}                   \caption{DTCWT Random Forest}
 				\end{subfigure}
 			\caption{DTCWT Cross-Validation}
 		\end{figure}
 
-\begin{figure} 
+\begin{figure}[h!] 
 	\centering    
-	\includegraphics[width=4cm]{images/conf_matrix_DTCWT.png}    
+	\includegraphics[width=6cm]{images/conf_matrix_DTCWT.png}    
 	\caption{DTCWT Random Forest Matriz de Confusi\'on}
 \end{figure}
 
 
+\section{CNN - MFCC}
+Los MFCC se utilizan comúnmente en el procesamiento de señales de audio y voz para extraer características que se pueden utilizar en diversas aplicaciones, como el reconocimiento de voz y la clasificación de géneros musicales. Se basan en la observación de que el sistema auditivo humano es más sensible a los cambios de frecuencia en las frecuencias más bajas en comparación con las frecuencias más altas. La escala de frecuencia Mel es una transformación no lineal de la frecuencia que aproxima la respuesta del sistema auditivo humano al sonido. La razón por la que se utilizan los MFCC es que son una representación compacta del envolvente espectral de la señal de audio, lo cual es particularmente útil cuando se trata con grandes cantidades de datos de audio.
+
+Los MFCC son una técnica poderosa de extracción de características para el procesamiento de señales de audio y voz y se han utilizado ampliamente en una variedad de aplicaciones, incluyendo el reconocimiento de voz, la clasificación de géneros musicales y más.
+
+\subsection{Arquitectura del modelo}
+Nuestro modelo se basa en redes neuronales convolucionales para tratar con las imágenes de MFCC. Estas redes están diseñadas específicamente para detectar patrones y características en imágenes, lo que las hace muy útiles en problemas de clasificación y reconocimiento de objetos. Las redes neuronales convolucionales son muy útiles para el procesamiento de imágenes porque son capaces de aprender patrones y características de manera automática. Esto significa que no se necesita un conocimiento experto para diseñar los filtros o características que se utilizan para procesar las imágenes, ya que la red es capaz de aprenderlos a partir de los datos de entrenamiento.
+
+La arquitectura de una CNN se compone de varias capas de procesamiento, incluyendo capas de convolución y de pooling que permiten extraer características relevantes de las imágenes de entrada. La capa de convolución es la que aplica un filtro o kernel a la imagen de entrada para detectar patrones específicos, como bordes, líneas o texturas. La capa de pooling reduce la resolución de la imagen de salida, lo que ayuda a reducir el número de parámetros que deben entrenarse y a evitar el sobreajuste. También se usan capas independientemente de la necesidad del modelo, como capas para aplanar las imágenes a un vector, capas densas para pasarle lo que se detecto en las anteriores y ajustar pesos, y capas de activación.
+
+\subsection{Arquitectura de capas del modelo}
+- Capa de entrada input: recibe la la imagen con tamaño 256x192 y 3 filtros RGB.(256,192,3).
+
+- Capa Conv2D: recibe la capa input anterior y devuelve datos de tamaño (256,192,64), aplica 64 filtros a la imagen.
+
+- Capa AveragePooling2D: recibe datos de tamaño (256,192,64) y devuelve la imagen reducida en (2,2), devuelve datos de tamaño (128,96,64).
+
+- Capa Conv2D: recibe datos de tamaño (128,96,64) y devuelve datos de tamaño (128,96,128), aplica 128 filtros a la imagen.
+
+- Capa AveragePooling2D recibe datos de tamaño (128,96,128) y devuelve la imagen reducida en (2,2), devuelve datos de tamaño (64,48,128).
+
+- Capa Conv2D: recibe datos de tamaño (64,48,128) y devuelve datos de tamaño (64,48,256), aplicando 256 filtros a la imagen.
+
+- Capa GlobalAveragePooling2D: recibe datos de tamaño (128,96,128) y devuelve un vector 1D \cite{Machine Learning and Deep Learning methods for music genre Classification} de tamaño 256, con una salida por cada filtro.
+
+- Capa Dense de 256 neuronas: recibe los datos de la salida de la capa anterior y los procesa con la función de activación RELU.
+
+- Capa Dense de 128 neuronas: recibe los datos de la salida de la capa anterior y los procesa con la función de activación RELU.
+
+- Capa Dense de 64 neuronas: recibe los datos de la salida de la capa anterior y los procesa con la función de activación RELU.
+
+- Capa Dense de 32 neuronas: recibe los datos de la salida de la capa anterior y los procesa con la función de activación RELU.
+
+- Capa Dense de 10 neuronas: recibe los datos de la salida de la capa anterior y los procesa con la función de activación softmax para determinar la salida de tipo clasificación.
+
+\begin{figure}
+\includegraphics{CNN.png}
+\end{figure}
+
+\subsection{Resultados}.\\
+Tras dividir la case de datos de forma eficiente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 épocas de entrenamiento un accuracy de $0.767$ para datos de prueba, $0.819$ para datos de validación, $0.974$ para datos de entrenamiento.
+
+Se muestran en los siguientes gráficos los resultados del entrenamiento en el transcurso de las épocas. Se puede apreciar que cuando los datos de entrenamiento "pierden" el sobreajuste, los datos de validación por lo general mejoran el resultado. En esos picos se nota cómo el modelo generaliza mejor.
+  \begin{figure}
+  \includegraphics{CNN_accuracy.jpg}
+  \end{figure}
+  \begin{figure}
+  \includegraphics{CNN_loss.jpg}
+  \end{figure}
 
 \section{Conv1D}
 Implementamos un modelo de red neuronal convolucional unidimensional (CNN 1D) para clasificar géneros de música. El modelo se basa en la arquitectura de ResNet, una popular red neuronal convolucional utilizada para tareas de clasificación. La elección de una red 1D permite al modelo procesar directamente señales de audio, lo que lo hace especialmente útil para esta tarea de clasificación de géneros musicales.
@@ -241,7 +299,6 @@ El código se divide en varias partes:
 
 \subsection{Comentarios}
 Sin embargo, cabe mencionar que, aunque el modelo está inspirado en la arquitectura ResNet, la implementación en el código no incluye las conexiones de atajo (shortcut connections) que caracterizan a ResNet. Estas conexiones permiten que las señales pasen directamente a través de la red, ayudando a combatir el problema del desvanecimiento del gradiente durante el entrenamiento de redes profundas. A pesar de la ausencia de estas conexiones, el modelo aún puede ser efectivo para la tarea de clasificación de géneros de música. Los trabajos futuros podrían considerar la implementación de las conexiones de atajo para recrear más fielmente la arquitectura ResNet y potencialmente mejorar el rendimiento.
-
 
 \subsection*{Integración en Google Colab}
 
@@ -275,10 +332,6 @@ La descarga se realiza desde Kaggle, una plataforma que proporciona una gran can
 \subsection*{4. Entrenamiento del modelo}
 
 Inicialmente, concebimos el entrenamiento del modelo trabajando directamente con los audios. Sin embargo, al investigar la clasificación de géneros musicales y trabajar con música en general, optamos por trabajar con histogramas de las canciones. Aunque dejamos ambos enfoques en el modelo, es importante solo ejecutar uno de los dos. Las instrucciones detalladas para el entrenamiento del modelo se encuentran en el notebook.
-
-
-
-
 
 \section{Modelo VisionLang}
 
@@ -363,7 +416,15 @@ Finalmente con un accuracy de $0.57$ y con valor para la funci\'on de p\'erdida 
 
 Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados anteriormente descritos. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
 
-%	\section{Recomendaciones}
+
+	\section{Recomendaciones}
+  
+Un aspecto crítico que afecta el rendimiento de los modelos de clasificación radica en la precisión y consistencia de las anotaciones asignadas manualmente. Los esfuerzos futuros deberían priorizar la recopilación de datos de mayor calidad a través de pautas más estrictas, anotaciones de expertos o procedimientos de ratificación de colaboración colectiva.
+
+Otro enfoque para impulsar el rendimiento de los modelos de clasificación de género es combinar múltiples modelos a través de ensembles. Al integrar predicciones de distintos algoritmos y representaciones de características, los ensembles aprovechan las fortalezas de los clasificadores individuales mientras mitigan sus debilidades.  
+
+  Al seguir estas direcciones, los investigadores pueden ampliar nuestra comprensión de la clasificación de géneros musicales y sentar bases sólidas para soluciones de próxima generación en áreas relacionadas, incluido el análisis de audio, la recuperación de información o las interfaces interactivas centradas en el ser humano.
+  
 	    
 	\begin{thebibliography}{20}
 		\bibitem{whisper} A. Radford, J. Wook Kim, T. Xu, G. Brockman, C. McLeavey y I. Sutskever: \emph{RobustSpeechRecognitionviaLarge-ScaleWeakSupervision}. Preprint on arXiv: 2212.04356, 2022. 	
@@ -375,6 +436,7 @@ Se realizó también cross validation con Kfold dividiendo todo el conjunto de e
 		\bibitem{DT-CWT} Selesnick, I.W. and Baraniuk, R.G. and Kingsbury, N.C., \emph{The dual-tree complex wavelet transform}, 2005, IEEE Signal Processing Magazine, pp. 123-151.
 		\bibitem{Wavelets y sus Aplicaciones} Liliana R. Castro, Silvia M.  Castro: \emph{Wavelets y sus Aplicaciones}, ler. Congreso Argentino de Ciencias de la Computación, pp. 195-204.
 		\bibitem{Musical Genre Classification Of Audio Signals} George Tzanetakis, Georg Essl, Perry Cook: \emph{Automatic Musical Genre Classification Of Audio Signals}
-	\end{thebibliography}
+		\bibitem{Machine Learning and Deep Learning methods for music genre Classification} Rusian Gohkman: \emph{Machine Learning and Deep Learning methods for music genre Classification}
+    \end{thebibliography}
 	
 \end{document}
