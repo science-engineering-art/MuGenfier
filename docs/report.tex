@@ -221,12 +221,30 @@ La segunda mitad de la informaci\'on de la que queremos que nuestro modelo apren
 
 \subsection{Arquitectura del modelo}
 
-Una vez obtenidos los dos embedding correspondientes a la letra de la canci\'on y la m\'usica (MFCC) ya tenemos la entrada de nuestra red neuronal. La misma ser\'a la concatenaci\'on de los dos vectores obtenidos. Luego las siguientes capas ....\todo{arquitectura final}.
- 
- 
+Una vez obtenidos los dos embedding correspondientes a la letra de la canci\'on y la m\'usica (MFCC) ya tenemos la capa de entrada de nuestra red neuronal. La misma es la concatenaci\'on de los dos vectores obtenidos. Luego la red tiene  dos capas ocultas con funci\'on de activaci\'on RELU y cantidad de neuronas $128$ y $64$ respectivamente. Finalmente la capa de salida consiste de $10$ neuronas que representan a cada uno de los g\'eneros musicales que analizamos, y cuenta con softmax como funci\'on de activaci\'on. Siendo coherente con esto \'ultimo usamos como funci\'on de p\'erdida la Categorical Cross Entropy. Adem\'as, el modelo fue entrenado durante $500$ epochs.
 
 
-    \todo{TODO}
+\subsection{Resultados}
+
+Como podemos ver en la siguiente gr\'afica el valor de ``accuracy'' de nuestro modelo para el training set es casi perfecto llegados al epoch n\'umero $300$. En el caso del conjunto de  datos de validaci\'on, que es el que nos da la efectividad de nuestro modelo, vemos que el accuracy crece r\'apidamente hasta llegar al valor $0.57$ alrededor del epoch $150$.
+
+ \begin{figure}[h!]
+ 	\includegraphics[width=\linewidth]{vl_accuracy.png}
+ \end{figure}
+
+Con m\'as capas y neuronas en nuestro modelo, este hac\'ia r\'apidamente overfitting, o sea en pocos epochs. Esto nos llev\'o a reducirlo a la arquitectura actual. Como podemos observar en la pr\'oxima gr\'afica la funci\'on de p\'erdida para los datos entrenantes decrece r\'apidamente acerc\'andose mucho a cero en el epoch $300$. En el caso de los datos de validaci\'on, vemos como a partir del epoch $100$ la red comienza a hacer overfitting, pero no es representativo. 
+
+ \begin{figure}[h!]
+	\includegraphics[width=\linewidth]{vl_loss.png}
+\end{figure}
+
+%Presentamos aqu\'i adem\'as la matriz de confusi\'on.
+
+ \begin{figure}[h!]
+	\includegraphics[width=\linewidth]{vl_confussion_matrix.png}
+\end{figure}
+
+Finalmente con un accuracy de $0.57$ y con valor para la funci\'on de p\'erdida de  $2.9323$ llegamos a la conclusi\'on de que este modelo no arroja resultados que mejoren los obtenidos en los modelos ya vistos antes.
 
 	\section{Tests}
 	
