@@ -19,8 +19,10 @@ const GenreClassifier = () => {
 
     var form = new FormData();
     form.append("file", music);
+
+    const model = "cnn_mfcc"
   
-    await fetch('http://localhost:8000/', {
+    await fetch(`http://localhost:8000/${model}`, {
       method: 'POST',
       body: form
     }).then(res => res.json())
