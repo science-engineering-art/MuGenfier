@@ -444,3 +444,5 @@ docs/vision_lang_accuracy.pngZone.Identifier
 docs/vl_confussion_matrix.pngZone.Identifier
 docs/vl_loss.pngZone.Identifier
 src/model/models/best_model.keras
+
+environment
