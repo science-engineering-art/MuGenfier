@@ -7,6 +7,7 @@
 import aiofiles
 from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from wrappers.main import predict
 
 # API service
 app = FastAPI()
@@ -37,4 +38,4 @@ async def classify_musical_genre(model:str, file: UploadFile):
     finally:
         await file.close()
 
-    return { "genre": "Classic" }
+    return { "genre": predict(model, file.filename) }
