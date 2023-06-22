@@ -1,4 +1,4 @@
-from model import Model
+from wrappers.model import Model
 from typing import Any
 
 
@@ -8,11 +8,11 @@ class CNN_MFCC(Model):
     def __init__(self, model_path: str):
         super().__init__(model_path)
         
-    def load():
+    def load(self, model_path: str):
         # missing implementation
         ...
         
-    def extract_feature() -> Any:
+    def extract_feature(song_path:str) -> Any:
         # missing implementation
         ...
         

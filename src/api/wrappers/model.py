@@ -6,14 +6,14 @@ from typing import Any
 class Model:
     
     def __init__(self, model_path: str):
-        self.model_path = model_path
+        self.load(model_path)
     
     @abstractmethod
-    def load():
+    def load(self, model_path: str):
         ...
 
     @staticmethod
-    def extract_feature() -> Any:
+    def extract_feature(song_path: str) -> Any:
         ...
 
     @abstractmethod

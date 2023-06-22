@@ -29,7 +29,7 @@ async def classify_musical_genre(model:str, file: UploadFile):
     try:
         # create an .mp3 file with the received song
         contents = await file.read()
-        async with aiofiles.open(file.filename, 'wb') as f:
+        async with aiofiles.open(f".files/{file.filename}", 'wb') as f:
             await f.write(contents)
 
     except Exception:
@@ -38,4 +38,4 @@ async def classify_musical_genre(model:str, file: UploadFile):
     finally:
         await file.close()
 
-    return { "genre": predict(model, file.filename) }
+    return { "genre": predict(model, f".files/{file.filename}") }
