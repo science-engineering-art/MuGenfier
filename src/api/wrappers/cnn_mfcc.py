@@ -16,24 +16,30 @@ class CNN_MFCC(Model):
         super().__init__(model_path)
         
     def load(self, model_path: str):
-        model_path = os.path.join(, f"{model_name}.h5")
         loaded_model = load_model(model_path)
         return loaded_model
-        # missing implementation
 
-    def extract_feature(song_path:str) -> Any:
-        # missing implementation
-        x , sr = librosa.load(audio_path)
+    def extract_feature(self, song_path:str) -> Any:
+        x , sr = librosa.load(song_path)
         mfccs = librosa.feature.mfcc(y=x, sr=sr)
         img_array = np.array(mfccs)
         img_array = img_array / 255.0  # Normalización de los datos
         img_array = np.expand_dims(img_array, axis=0)
         return img_array
         
-    def predict(song_path: str) -> str:
-        # missing implementation
-        prediction = loaded_model.predict(img_array)
+    def predict(self, song_path: str) -> str:
+        img_array = self.extract_feature(song_path)
+        prediction = self.model.predict(img_array)
         genres = ['blues', 'classical', 'country', 'disco', 'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock']
         genre = genres[np.argmax(prediction)] 
 
         return { "genre": genre }
+
+
+if __name__ == "__main__":
+    model_path = "src/training/models/model.h5" #agregar modelo preentrenado
+    cnn_mfcc = CNN_MFCC(model_path)
+    song_path = "audi.wav"
+    predicted_genre = cnn_mfcc.predict(song_path)
+    print(predicted_genre)
+
