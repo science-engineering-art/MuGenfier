@@ -5,6 +5,7 @@ import librosa
 import dtcwt
 import scipy
 import numpy as np
+import sklearn
 from collections import Counter
 
 
@@ -61,12 +62,14 @@ class DWT(Model):
             temp = (np.abs(coeff.squeeze()))
             features += get_features(temp)
             
-        features += get_features(forw.lowpass.squeeze())    
+        features += get_features(forw.lowpass.squeeze())  
+    
         return features
 
         
     def predict(self, song_path: str) -> str:
         X = DWT.extract_feature(song_path)
+        print(X)
         y = self.model.predict([X])
         
         genre =['blues', 'classical', 'country', \

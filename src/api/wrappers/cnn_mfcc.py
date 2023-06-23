@@ -11,7 +11,7 @@ import numpy as np
 
 # Raul model
 class CNN_MFCC(Model):
-    
+
     def __init__(self, model_path: str):
         super().__init__(model_path)
         
@@ -20,9 +20,7 @@ class CNN_MFCC(Model):
         loaded_model = load_model(model_path)
         return loaded_model
         # missing implementation
-        
-        
-        
+
     def extract_feature(song_path:str) -> Any:
         # missing implementation
         x , sr = librosa.load(audio_path)

@@ -1,9 +1,20 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
+import Dropdown, { Option } from 'react-dropdown';
+
+
+const options: Option[] = [
+  { value: 'cnn_mfcc', label: 'CNN + MFCC' },
+  { value: 'dwt', label: 'Random Forest + Wavelet' },
+  { value: 'vision_lang', label: 'Vision Language Model' },
+];
+
 
 const GenreClassifier = () => {  
   const [music, setMusic] = useState<File>();
   const [genre, setGenre] = useState<string>("");
   const [wasThereClassified, setWasThereClassified] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) 
@@ -20,7 +31,9 @@ const GenreClassifier = () => {
     var form = new FormData();
     form.append("file", music);
 
-    const model = "dwt"
+    const model = selectedOption['value']
+
+    console.log(model)
   
     await fetch(`http://localhost:8000/${model}`, {
       method: 'POST',
@@ -43,6 +56,11 @@ const GenreClassifier = () => {
           />
         <input type='submit' value={'Classify'}/>
       </form>
+      <Dropdown 
+        options={options} 
+        onChange={(op: Option) => setSelectedOption(op)} 
+        value={selectedOption} 
+      />
     </div>
   );
 }
