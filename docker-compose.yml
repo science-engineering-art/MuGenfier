@@ -14,6 +14,13 @@ services:
     ports:
       - 8000:8000
 
+  web:
+    build: ./src/web
+    volumes:
+      - ./src/web/src:/web/src
+    ports:
+      - 3000:3000
+
   local-ai:
     image: docker.uclv.cu/marcosmtr/whisper
     volumes:

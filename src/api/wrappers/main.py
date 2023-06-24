@@ -9,14 +9,14 @@ vis = VisionLang({
     'vision_lang': '../../models/vision_lang.keras'
 })
 
-# cnn = CNN_MFCC("<path>")
+cnn = CNN_MFCC("../../models/cnn_mfcc.h5")
 
 def predict(model: str, song_path: str) -> str:
     if model == "dwt":
         return dwt.predict(song_path)
     elif model == "vision_lang":
         return vis.predict(song_path)
-    # elif model == "cnn_mfcc":
-    #     return cnn.predict(song_path)
+    elif model == "cnn_mfcc":
+        return cnn.predict(song_path)
     else:
         return "Without Genre"
