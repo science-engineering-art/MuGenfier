@@ -1,4 +1,0 @@
-aiofiles
-fastapi
-python-multipart
-uvicorn[standard]

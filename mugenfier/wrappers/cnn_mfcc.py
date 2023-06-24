@@ -1,6 +1,5 @@
 from wrappers.model import Model
 from typing import Any
-import os
 import librosa
 import numpy as np
 from keras.models import load_model

@@ -12,10 +12,10 @@ class Model:
     def load(self, model_path: str):
         ...
 
-    @staticmethod
-    def extract_feature(song_path: str) -> Any:
+    @abstractmethod
+    def extract_feature(self, song_path: str) -> Any:
         ...
 
     @abstractmethod
-    def predict(song_path: str) -> str:
+    def predict(self, song_path: str) -> str:
         ...
