@@ -1,14 +1,12 @@
-aiofiles==23.1.0
 dtcwt==0.12.0
-fastapi==0.98.0
+essentia==2.1b6.dev1034
 keras==2.12.0
+librosa==0.10.0.post2
 matplotlib==3.7.1
 numpy==1.23.5
 pandas==2.0.1
 Requests==2.31.0
 scikit_learn==1.2.2
 scipy==1.10.1
-soundfile==0.12.1
 tensorflow==2.12.0
 textblob==0.17.1
-transformers==4.29.2
