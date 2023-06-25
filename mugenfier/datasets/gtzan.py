@@ -3,10 +3,10 @@ from copy import deepcopy
 from mugenfier.utils import is_valid_split, load_wav
 
 
-SETS = ['test', 'train', 'val']
+SETS = {'test', 'train', 'val'}
 
-GENRES = ['blues', 'classical', 'country', 'disco', \
-    'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock']
+GENRES = {'blues', 'classical', 'country', 'disco', \
+    'hiphop', 'jazz', 'metal', 'pop', 'reggae', 'rock'}
 
 
 class GTZAN:
@@ -30,6 +30,13 @@ class GTZAN:
             self.split = deepcopy(split)
 
     def __getitem__(self, key: tuple):
+        
+        def get_wav_path(genre, index):
+            wav_path = f'{self.path}/{genre}/{genre}.000{index}.wav'
+            if index >= 0 and index < 10:
+                wav_path = f'{self.path}/{genre}/{genre}.0000{index}.wav' 
+            return wav_path
+        
         try:
             i, j = key
         except:
@@ -42,15 +49,16 @@ class GTZAN:
             if j in SETS and i in GENRES:
                 i, j = j, i
 
-            for index in self.split[i][j]:
-                
-                wav_path = f'{self.path}/{j}/{j}.000{index}.wav'
-                if index >= 0 and index < 10:
-                    wav_path = f'{self.path}/{j}/{j}.0000{index}.wav'    
-                
+            for index in self.split[i][j]:                
+                wav_path = get_wav_path(j, index)
                 yield load_wav(wav_path)
 
         # index by dataset['jazz', 93]
         elif (i in GENRES and j >= 0 and j < 100) or \
             (j in GENRES and i >= 0 and i < 100):
-            ...
+
+            if j in GENRES and i >= 0 and i < 100:
+                i, j = j, i
+
+            wav_path = get_wav_path(i, j)
+            yield load_wav(wav_path)
