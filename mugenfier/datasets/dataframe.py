@@ -1,41 +1,22 @@
-from .gtzan import GTZAN, SETS, GENRES
 import pandas as pd
-from mugenfier.features import extract_spec
-import numpy as np
+from .gtzan import GENRES
+from mugenfier.features import FEATURES
+# import numpy as np
 
-def get_dataframe(gtzan: GTZAN = None):
-    cache_path = f'{gtzan.path}/cache.h5'
-    store = pd.HDFStore(cache_path)
+def split_dataframe(df: pd.DataFrame):
     
-    if 'df' in store:
-        return store['df'] 
+    df_train = df[df['set'].apply(lambda s: s == 'train')]
+    df_train = pd.concat([df_train[list(FEATURES)], df_train[list(GENRES)]])
+    # df_train.drop(['set'], axis=1, inplace=True)
     
-    dataset = []
+    df_val = df[df['set'].apply(lambda s: s == 'val')]
+    df_val = pd.concat([df_val[list(FEATURES)], df_val[list(GENRES)]])
+    # df_val.drop(['set'], axis=1, inplace=True)
     
-    for set in SETS:
-        for genre in GENRES:
-            amount = 0
-            for wav, sr in gtzan[set][genre]:
-                features = extract_spec(wav, sr)
-                print(f'{set.upper()} - {genre.upper()} => {amount}')
-                dataset.append([
-                    features['mfcc'],
-                    features['mel'],
-                    features['log_mel'],
-                    set,
-                    genre
-                ])
-                amount += 1
+    df_test = df[df['set'].apply(lambda s: s == 'test')]
+    df_test = pd.concat([df_test[list(FEATURES)], df_test[list(GENRES)]])
+    # df_test = df_test[df_test['mfcc'].apply(lambda s: not s.isna())]
+    # df_test.drop(['set'], axis=1, inplace=True)
     
-    df = pd.DataFrame(
-        data=np.array(dataset, dtype=object), 
-        columns=['mfcc', 'mel', 'log_mel', 'set', 'genre']
-    )
+    return df_train, df_val, df_test
     
-    one_hot = pd.get_dummies(df['genre'])
-    df = pd.concat([df, one_hot], axis=1)
-    df.drop(['genre'], axis=1, inplace=True)
-   
-    store['df'] = df 
-
-    return df

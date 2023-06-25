@@ -1,7 +1,7 @@
 from .gtzan import GTZAN
-from .dataframe import get_dataframe
+from .dataframe import split_dataframe
 
 __all__ = [
-    "GTZAN", "get_dataframe"
+    "GTZAN", "split_dataframe"
 ]
 name = "mugenfier.datasets"

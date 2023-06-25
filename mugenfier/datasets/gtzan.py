@@ -1,6 +1,9 @@
 import tarfile
 from copy import deepcopy
 from mugenfier.utils import is_valid_split, load_wav, get_wav_path
+import pandas as pd
+from mugenfier.features import extract_spec
+import numpy as np
 
 
 SETS = {'test', 'train', 'val'}
@@ -52,6 +55,50 @@ class GTZAN:
                 yield wav, sr
         
         return { genre: filter_by_genre(genre) for genre in GENRES }
+
+    def get_dataframe(self):
+        cache_path = f'{self.path}/cache.h5'
+        store = pd.HDFStore(cache_path)
+        
+        if 'df' in store:
+            df = store['df']
+            
+            one_hot = pd.get_dummies(df['genre'])
+            df = pd.concat([df, one_hot], axis=1) 
+            df.drop(['genre'], axis=1, inplace=True)
+            
+            return df        
+            
+        dataset = []
+        
+        print('PREPROCESSING...\n')
+        for set in SETS:
+            for genre in GENRES:
+                for wav, sr in self[set][genre]:
+                    features = extract_spec(wav, sr)
+                    
+                    dataset.append([
+                        features['mfcc'],
+                        features['mel'],
+                        features['log_mel'],
+                        set,
+                        genre
+                    ])
+                    
+                print(f'({set.upper()}, {genre.upper()}): DONE!!\n')
+        
+        df = pd.DataFrame(
+            data=np.array(dataset, dtype=object), 
+            columns=['mfcc', 'mel', 'log_mel', 'set', 'genre']
+        )
+        
+        store['df'] = df 
+            
+        one_hot = pd.get_dummies(df['genre'])
+        df = pd.concat([df, one_hot], axis=1)
+        df.drop(['genre'], axis=1, inplace=True)
+    
+        return df
 
     def __getitem__(self, key: str):
         if key in SETS:

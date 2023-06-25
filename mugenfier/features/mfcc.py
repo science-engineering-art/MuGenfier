@@ -8,7 +8,6 @@ import cv2 as cv
 from tensorflow import convert_to_tensor
 import os
 
-
 def extract_spec(wav: ndarray[floating[Any]], sr: float, save_img: bool = False, dst: str = '.'):
     features = {}
     
