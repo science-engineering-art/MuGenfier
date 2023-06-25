@@ -1,7 +1,7 @@
 import tarfile
 from copy import deepcopy
-from mugenfier.utils import is_valid_split
-import os
+from mugenfier.utils import is_valid_split, load_wav
+
 
 SETS = ['test', 'train', 'val']
 
@@ -41,9 +41,16 @@ class GTZAN:
             
             if j in SETS and i in GENRES:
                 i, j = j, i
-            
+
+            for index in self.split[i][j]:
+                
+                wav_path = f'{self.path}/{j}/{j}.000{index}.wav'
+                if index >= 0 and index < 10:
+                    wav_path = f'{self.path}/{j}/{j}.0000{index}.wav'    
+                
+                yield load_wav(wav_path)
 
         # index by dataset['jazz', 93]
-        if (i in GENRES and j >= 0 and j < 100) or \
+        elif (i in GENRES and j >= 0 and j < 100) or \
             (j in GENRES and i >= 0 and i < 100):
             ...
