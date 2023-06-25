@@ -14,7 +14,7 @@ from pandas import DataFrame
 import keras as kr
 from keras import Sequential
 import tensorflow as tf
-from tensorflow.keras.models import Model
+from keras.models import Model
 from keras.layers import Conv2D, UpSampling2D, MaxPooling2D, Input, Cropping2D, Cropping3D, Flatten, Dense, Reshape
 
 SEED_VALUE = 42
