@@ -1,8 +1,8 @@
 from wrappers.cnn_mfcc import CNN_MFCC
-from wrappers.dwt import DWT
+from wrappers.dtcwt import DTCWT
 from wrappers.vision_lang import VisionLang
 
-dwt = DWT("../../models/dwt.bin")
+dtcwt = DTCWT("../../models/dtcwt.bin")
 
 vis = VisionLang({
     'encoder': '../../models/encoder.keras', 
@@ -13,7 +13,7 @@ cnn = CNN_MFCC("../../models/cnn_mfcc.h5")
 
 def predict(model: str, song_path: str) -> str:
     if model == "dwt":
-        return dwt.predict(song_path)
+        return dtcwt.predict(song_path)
     elif model == "vision_lang":
         return vis.predict(song_path)
     elif model == "cnn_mfcc":
