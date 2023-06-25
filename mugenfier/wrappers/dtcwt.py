@@ -10,7 +10,7 @@ from collections import Counter
 
 
 # Niley model
-class DWT(Model):
+class DTCWT(Model):
     
     def __init__(self, model_path: str):
         super().__init__(model_path)
@@ -68,7 +68,7 @@ class DWT(Model):
 
         
     def predict(self, song_path: str) -> str:
-        X = DWT.extract_feature(song_path)
+        X = DTCWT.extract_feature(song_path)
         print(X)
         y = self.model.predict([X])
         
