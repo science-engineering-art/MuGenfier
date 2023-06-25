@@ -1,7 +1,10 @@
-from mugenfier.utils import is_valid_split
-from mugenfier.datasets import GTZAN
+
+import mugenfier.datasets as datasets
+import mugenfier.features as features
+import mugenfier.models as models 
+import mugenfier.utils as utils
 
 __all__ = [
-    "is_valid_split", "GTZAN"
+    "datasets", "features", "models", "utils"
 ]
 name = "mugenfier"
