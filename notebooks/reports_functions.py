@@ -40,8 +40,7 @@ def plot_confusion_matrix(y_test, y_pred, save_as:str, title:str='Confusion Matr
     plt.xlabel('Predicted label\naccuracy={:0.4f}; misclass={:0.4f}'.format(accuracy, misclass))
     plt.savefig(save_as)
 
-def cross_validation_accuracy(model, X, y, n_splits=30,  save_as:str=None, title:str='Cross-Validation Scores'):
-    
+def cross_validation_accuracy(model, X, y, n_splits=30,  save_as:str=None, title:str='Cross-Validation Scores',y_lim=(0,1.005)):
     if not isinstance(save_as, str):
         save_as = f'cross_val_score_{time.time()}.png'
 
@@ -51,17 +50,18 @@ def cross_validation_accuracy(model, X, y, n_splits=30,  save_as:str=None, title
 
     print('scores: ', scores)
     print('mean: ', scores.mean())
+    print('std: ', scores.std())
 
     plt.figure(figsize=(8,6))
     plt.title(title)
     plt.xlabel('Fold')
     plt.ylabel('Score')
     ax = plt.gca()
-    ax.set_xlim(1, n_splits+0.1)
-    ax.set_ylim(0, 1.005)
+    ax.set_xlim(0.9, n_splits+0.1)
+    ax.set_ylim(*y_lim)
     plt.grid()
     plt.plot(range(1,n_splits+1), scores, 'o-', color='blue', lw=2)
-    plt.plot(range(1,n_splits+1), [scores.mean()]*5, linestyle="-.", color='k')
+    plt.plot(range(1,n_splits+1), [scores.mean()]*n_splits, linestyle="-.", color='k')
     plt.annotate("%0.4f" % scores.mean(), (3, scores.mean() + 0.005))
     plt.legend(['accuracy','mean acc'],loc="best")
     plt.savefig(save_as)
