@@ -34,7 +34,10 @@ class GTZAN:
         def filter_by_set(set: str):
             for index in self.split[set][genre]:                
                 wav_path = get_wav_path(self.path, genre, index)
-                yield load_wav(wav_path)
+                if wav_path.endswith('jazz.00054.wav'): 
+                    continue
+                wav, sr = load_wav(wav_path)
+                yield wav, sr
         
         return { set: filter_by_set(set) for set in SETS }
 
@@ -43,7 +46,10 @@ class GTZAN:
         def filter_by_genre(genre: str):
             for index in self.split[set][genre]:                
                 wav_path = get_wav_path(self.path, genre, index)
-                yield load_wav(wav_path)
+                if wav_path.endswith('jazz.00054.wav'): 
+                    continue
+                wav, sr = load_wav(wav_path)
+                yield wav, sr
         
         return { genre: filter_by_genre(genre) for genre in GENRES }
 
