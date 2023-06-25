@@ -1,6 +1,6 @@
 import tarfile
 from copy import deepcopy
-from mugenfier.utils import is_valid_split, load_wav
+from mugenfier.utils import is_valid_split, load_wav, get_wav_path
 
 
 SETS = {'test', 'train', 'val'}
@@ -28,37 +28,27 @@ class GTZAN:
         
         if is_valid_split(split):
             self.split = deepcopy(split)
-
-    def __getitem__(self, key: tuple):
-        
-        def get_wav_path(genre, index):
-            wav_path = f'{self.path}/{genre}/{genre}.000{index}.wav'
-            if index >= 0 and index < 10:
-                wav_path = f'{self.path}/{genre}/{genre}.0000{index}.wav' 
-            return wav_path
-        
-        try:
-            i, j = key
-        except:
-            raise Exception("Incorrect key for index")
-
-        # index by dataset['test', 'jazz']
-        if (i in SETS and j in GENRES) or \
-            (j in SETS and i in GENRES):
             
-            if j in SETS and i in GENRES:
-                i, j = j, i
+    def filter_by_genre(self, genre: str):
 
-            for index in self.split[i][j]:                
-                wav_path = get_wav_path(j, index)
+        def filter_by_set(set: str):
+            for index in self.split[set][genre]:                
+                wav_path = get_wav_path(self.path, genre, index)
                 yield load_wav(wav_path)
+        
+        return { set: filter_by_set(set) for set in SETS }
 
-        # index by dataset['jazz', 93]
-        elif (i in GENRES and j >= 0 and j < 100) or \
-            (j in GENRES and i >= 0 and i < 100):
+    def filter_by_set(self, set: str):
 
-            if j in GENRES and i >= 0 and i < 100:
-                i, j = j, i
+        def filter_by_genre(genre: str):
+            for index in self.split[set][genre]:                
+                wav_path = get_wav_path(self.path, genre, index)
+                yield load_wav(wav_path)
+        
+        return { genre: filter_by_genre(genre) for genre in GENRES }
 
-            wav_path = get_wav_path(i, j)
-            yield load_wav(wav_path)
+    def __getitem__(self, key: str):
+        if key in SETS:
+            return self.filter_by_set(key)
+        if key in GENRES:
+            return self.filter_by_genre(key)
