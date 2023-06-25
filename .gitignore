@@ -449,3 +449,4 @@ src/model/models/best_model.keras
 *.h5
 *.keras
 *.npy
+*.wav
