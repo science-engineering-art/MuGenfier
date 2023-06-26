@@ -446,7 +446,5 @@ docs/vl_loss.pngZone.Identifier
 src/model/models/best_model.keras
 
 *.bin
-*.h5
-*.keras
 *.npy
 *.wav
