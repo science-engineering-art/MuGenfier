@@ -1,0 +1,2 @@
+Conv1D - ResNet(Spectograms): https://drive.google.com/file/d/1kSRamBw9AoDxf0TwRDjGznR45VepUhB9/view?usp=sharing
+Conv1D - ResNet(Raw Audio): https://drive.google.com/file/d/1FEkuFcKoR3jCoZtUipbf9PpVix8wFEz8/view?usp=sharing
