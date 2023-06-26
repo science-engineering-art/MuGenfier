@@ -427,12 +427,48 @@ Inicialmente, concebimos el entrenamiento del modelo trabajando directamente con
 Hasta ahora hemos implementado algunas de las ideas m\'as exitosas para clasificar g\'eneros musicales que se pueden encontrar en el estado del arte. Pero resulta que ninguna de estas hace uso de la letra de la canci\'on, la cu\'al sabemos intuitivamente que puede aportar bastante informaci\'on sobre el g\'enero de la canci\'on. Por tanto, una idea implementada en este trabajo es hacer un modelo clasificador que conste de una red neuronal que combina análisis de la letra, mediante un embedding que represente a la misma, y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta combinación de features. Al mismo lo llamamos como VisionLang.
 
 \subsection{Autoencoder}
-Para construir el encoder se programó un autoencoder y se tomó el modelo hasta el bottleneck para sacar el encoder. La arquitectura del autoencoder combinó capas maxpooling y upsampling al inicio y al final respectivamente para moderar el tamaño la imagen, intercaladas con capas convolucionales y en el medio tuvo un par de capas densas para aprovechar que ya el número de dimensiones era relativamente pequeño y realizar un poco más de aprendizaje. Se tomó como función de pérdida y métrica el error cuadrático medio ($\textit{mean squared error}$). La entrada del autoencoder y la salida esperada fueron las imágenes del feature MFCC del conjunto de entrenamiento luego de haber sido normalizadas, es decir, que en vez de estar en el rango $[0, 255]$ cada valor de la imagen de entrada, los representamos en el rango $[0, 1]$. 
+Una de las ideas implementadas para hacer uno de los clasificadores de nuestro ensemble combina análisis de la letra con un embedding y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta conbinación de features. \\
+Para construir el encoder se programó un autoencoder y se tomó el modelo hasta el bottleneck para sacar el encoder. La arquitectura del autoencoder combinó capas maxpooling y upsampling al inicio y al final respectivamente para moderar el tamaño la imagen, intercaladas con capas convolucionales y en el medio tuvo un par de capas densas para aprovechar que ya el número de dimensiones era relativamente pequeño y realizar un poco más de aprendizaje. La arquitectura en detalle es la siguente:
+\begin{table}
+	\begin{center}
+		\begin{tabular}{ | c | c | c |}
+			\hline
+			\textbf{Nombre de la capa} & \textbf{Tipo de la capa} & \textbf{Shape de salida} \\ \hline
+			$input_l$ & Input & (192, 256, 3) \\ \hline
+			$maxp_{ini}$ & MaxPooling2D & (96, 128, 3) \\ \hline
+			$encoding_1$ & Conv2D & (96, 128, 12) \\ \hline
+			$maxp_1$ & MaxPooling2D & (48, 64, 12) \\ \hline
+			$encoding_2$ & Conv2D & (48, 64, 6) \\ \hline
+			$maxp_2$ & MaxPooling2D & (24, 32, 6) \\ \hline
+			$encoding_3$ & Conv2D & (24, 32, 3) \\ \hline
+			$flat_1$ & Flatten & (2304) \\ \hline
+			$bottleneck$ & Dense & (500) \\ \hline
+			$decoding_1$ & Dense & (2304) \\ \hline
+			$resh_1$ & Reshape & (24, 32, 3) \\ \hline
+			$decoding_2$ & Conv2D & (24, 32, 6) \\ \hline
+			$Up_1$ & UpSampling2D & (48, 64, 6) \\ \hline
+			$decoding_3$ & Conv2D & (48, 64, 12) \\ \hline
+			$Up_2$ & UpSampling2D & (96, 128, 12) \\ \hline
+			$decoding_4$ & Conv2D & (96, 128, 3) \\ \hline
+			$output_l$ & UpSampling2D & (192, 256, 3) \\
+			\hline
+		\end{tabular}
+		\caption{Arquitectura del autoencoder.}
+		\label{tabla:2}
+	\end{center}
+\end{table}
+
+Como se puede observar la arquitectura es casi simétrica.
+
+Se tomó como función de pérdida y métrica el error cuadrático medio ($\textit{mean squared error}$). La entrada del autoencoder y la salida esperada fueron las imágenes del feature MFCC del conjunto de entrenamiento luego de haber sido normalizadas, es decir, que en vez de estar en el rango $[0, 255]$ cada valor de la imagen de entrada, los representamos en el rango $[0, 1]$. 
 
 Anteriormente se probaron otras arquitecturas, desde algunas que no tenían capas densas hasta otras que principalmente consistían en capas densas. El problema en las arquitecturas carentes de capas densas era que sus resultados no eran lo suficientemente buenos, es decir, debido a su relativamente baja cantidad de parámetros el nivel de aprendizaje que podían lograr era inferior al que se logró luego con arquitecturas con capas densas. Por otro lado, las arquitecturas que consistían principalmente en capas densas tenían problemas como que los modelos eran muy grandes, algunos pasando de los GiB de almacenamiento y presentaban un problema para nosotros a la hora del entrenamiento. Otro problema que tienen las arquitecturas más basadas en capas densas es su tendencia al overfitting. En las prueba realizadas, las arquitecturas carentes de capas densas no presentaban este tipo de problema ya que los resultados en los conjuntos de entrenamiento, test y validación tenían poca diferencia entre ellos, sin embargo en las arquitecturas que tenían capas densas, por el gran número de parámetros si se evidencia una diferencia sustancial entre los resultados en los conjuntos de entrenamiento, y los obtenidos en los de prueba y validación. Al entrenar se realizó un $save$ cada $10$ epochs. Veamos los resultados sobre el número del $save$ en el modelo de autoencoder presentado:
 
 \begin{figure}[h!]
-	\includegraphics[width=5cm]{overfitting_graph.png}
+	\begin{center}
+		\includegraphics[width=5cm]{overfitting_graph.png}
+		\caption{Gráfica de error del modelo contra número de épocas del entrenamiento.}
+	\end{center}
 \end{figure}
 
 A partir del análisis de la gráfica anterior se tomó como cantidad de epochs a ejecutar la cantidad de $150$, ya que se conjeturó (y luego validó) que el comportamiento del modelo en el conjunto de prueba sería muy similar al comportamiento en el conjunto de validación y en este punto es que se obtiene un mejor performance en el conjunto de prueba. 
