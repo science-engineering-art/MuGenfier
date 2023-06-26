@@ -65,3 +65,21 @@ def cross_validation_accuracy(model, X, y, n_splits=30,  save_as:str=None, title
     plt.annotate("%0.4f" % scores.mean(), (3, scores.mean() + 0.005))
     plt.legend(['accuracy','mean acc'],loc="best")
     plt.savefig(save_as)
+
+def plot_training(history):
+    """Plot the history of a train. This function recieve a variable history that return the function keras.fit"""
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('Model Precision')
+    plt.ylabel('Precision')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Validation'], loc='upper left')
+    plt.show()
+    
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Model Loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Validation'], loc='upper left')
+    plt.show()
