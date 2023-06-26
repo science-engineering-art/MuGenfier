@@ -242,7 +242,7 @@ La arquitectura de una CNN se compone de varias capas de procesamiento, incluyen
 
 \section{Resultados}
 \subsection {CNN-MFCC model}
-Tras dividir la case de datos de forma equivalente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 épocas de entrenamiento un accuracy de $0.7879$ para datos de prueba, $0.7699$ para datos de validación, $0.9786$ para datos de entrenamiento.
+Tras dividir la case de datos de forma equivalente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 épocas de entrenamiento un accuracy de 0.7879 para datos de prueba, 0.7699 para datos de validación, 0.9786 para datos de entrenamiento.
 
 Se muestran en los siguientes gráficos los resultados del entrenamiento en el transcurso de las épocas. Se puede apreciar que cuando los datos de entrenamiento pierden el sobreajuste, los datos de validación por lo general mejoran el resultado. En esos picos se nota cómo el modelo generaliza mejor.
   \begin{figure}
@@ -260,7 +260,42 @@ observan mejores resultados que en otros( reggae )
 \begin{figure}
 \includegraphics{CNN_confusion.png}
 \end{figure}
-  
+
+En la siguiente tabla se muestran los resultados de test por cada g\'enero:
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Genre} & \textbf{Accuracy} \\ \hline
+blues & 0.551 \\ \hline
+classic & 0.851 \\ \hline
+country & 1.000 \\ \hline
+disco & 0.852 \\ \hline
+hip hop & 0.749 \\ \hline
+jazz & 0.827 \\ \hline
+metal & 0.949 \\ \hline
+pop & 0.651 \\ \hline
+reggae & 0.759 \\ \hline
+rock & 0.551 \\ \hline
+\textbf{average} & \textbf{0.787} \\ \hline
+\end{tabular}
+\caption{Precisión de clasificación por género musical.}
+\label{tabla:1}
+\end{table}
+
+\section{Ensemble}
+Como modelo final del proyecto se propuso crear un ensemble para mezclar resultados de distintos modelos preentrenados por separado y asi aprovechar la fortaleza de cada uno de estos. Se decidio usar el tipo de ensemble staking. Este tipo de ensemble consiste en entrenar los modelos base y el modelo final(el ensemble) con conjuntos de datos distintos. Para entrenar estos modelos se dividio la base de datos en 56\% para entrenar los modelos base, 12\% para validar, 12\% para probar(test) y 20\% para entrenar el modelo final. 
+La arquitectura de este modelo es simple, consta de una capa densa de entrada
+
+Dado que la base de datos utilizada contiene una cantidad relativamente peque\~na de datos al entrenar los modelos base con solo un 56\% de los datos se obtuvieron los resultados: 
+
+\begin{itemize}
+\item mfcc-cnn: 0.61 test accuracy
+\item wavelets: 0.60 test accuracy 
+\end{itemize}
+
+Al entrenar el modelo final con el 20\% de los datos restantes se obtuvo un accuray de 0.65, lo cual si bien no es mejor resultado que los modelos entrenados individualmente con un conjunto de datos m\'as amplio, es un resultado que nos indica que en trabajos futuros con datasets m\'as abarcadoras, o con una dataset ampliada que tenga suficientes datos para preentrenar bien los modelos base, el ensemble mejora los resultados de los modelos previamente entrenados aprendiendo de las fortalezas de cada uno de estos.
+
 	\section{Wavelets}
 
 La clasificación de géneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con éxito en los últimos años. Aunque la Transformada de Fourier tiene una alta resolución en el dominio de la frecuencia, tiene una resolución cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qué frecuencias están presentes en una señal, pero no en qué lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar señales con un espectro de frecuencias dinámico es la Transformada Wavelet. Esta tiene una alta resolución tanto en el dominio de la frecuencia como en el del tiempo. Además, la Transformada Wavelet puede proporcionar una resolución de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser útil en la clasificación de géneros musicales, donde ciertos géneros pueden tener patrones rítmicos más rápidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por último, la Transformada Wavelet, ya que utiliza pocos datos para representar una señal puede ser útil en la clasificación de géneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en términos de tiempo y recursos computacionales. 
