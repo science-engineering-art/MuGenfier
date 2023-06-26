@@ -284,9 +284,17 @@ rock & 0.551 \\ \hline
 \end{table}
 
 \section{Ensemble}
-Como modelo final del proyecto se propuso crear un ensemble para mezclar resultados de distintos modelos preentrenados por separado y asi aprovechar la fortaleza de cada uno de estos. Se decidio usar el tipo de ensemble staking. Este tipo de ensemble consiste en entrenar los modelos base y el modelo final(el ensemble) con conjuntos de datos distintos. Para entrenar estos modelos se dividio la base de datos en 56\% para entrenar los modelos base, 12\% para validar, 12\% para probar(test) y 20\% para entrenar el modelo final. 
-La arquitectura de este modelo es simple, consta de una capa densa de entrada
+\textbf{\large An\'alisis del modelo}
+Como modelo final del proyecto se propuso crear un ensemble para mezclar resultados de distintos modelos preentrenados por separado y asi aprovechar la fortaleza de cada uno de estos. Se decidio usar el tipo de ensemble staking. Este tipo de ensemble consiste en entrenar los modelos base y el modelo final(el ensemble) con conjuntos de datos distintos. Para entrenar estos modelos se dividio la base de datos en 56\% para entrenar los modelos base, 12\% para validar, 12\% para probar(test) y 20\% para entrenar el modelo final.
 
+\textbf{\large Arquitectura}
+La arquitectura de este modelo es simple, es un modelo secuencial que consta de una capa densa de entrada con 100 neuronas con funcion de activacion relu, a la cual se le pasa el resultado de las predicciones de los modelos preentrenados, ergo la capa tendr\'a como entrada una lista de vectores, donde la posici\'on $i$ del vector indica el resultado predicho por el $i$-\'esimo modelo que que pertenece a los modelos que se utilicen en una iteraci\'on dada(los modelos a usar en el ensemble son maleables).
+Seguido de esta capa le siguen dos capas densas m\'as ambas de 100 neuronas y activacion relu, cierra con una capa densa de 10 neuronas con funcion de activacion softmax y con ello la salida del modelo sera un numero entre [0,9], el cual representara un genero dado.
+
+\begin{figure}
+\includegraphics{ensemble.png}
+\end{figure}
+\textbf{\large Resultados}
 Dado que la base de datos utilizada contiene una cantidad relativamente peque\~na de datos al entrenar los modelos base con solo un 56\% de los datos se obtuvieron los resultados: 
 
 \begin{itemize}
