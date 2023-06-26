@@ -176,7 +176,7 @@ En segundo lugar, la disponibilidad limitada de datos etiquetados de alta calida
 Por último, los enfoques actuales de aprendizaje profundo se basan en gran medida en procedimientos de preentrenamiento computacionalmente costosos, lo que los hace intensivos en recursos. Los trabajos existentes suelen utilizar servicios en la nube o potentes GPU, lo que dificulta la implementación práctica sin hardware especializado o recursos financieros. 
 	  
 
-\section {Analisis del problema}
+\section {An\'alisis del problema}
 \subsection {CNN-MFCC model}
     El problema que se pretende resolver es la clasificaci\'on de g\'eneros musicales utilizando redes neuronales convolucionales como modelo de aprendizaje y el feature MFCC como caracter\'istica extraida de los audios.
     Los MFCC se utilizan comúnmente en el procesamiento de señales de audio y voz para extraer características que se pueden utilizar en diversas aplicaciones, como el reconocimiento de voz y la clasificación de géneros musicales. Se basan en la observación de que el sistema auditivo humano es más sensible a los cambios de frecuencia en las frecuencias más bajas en comparación con las frecuencias más altas. La escala de frecuencia Mel es una transformación no lineal de la frecuencia que aproxima la respuesta del sistema auditivo humano al sonido. La razón por la que se utilizan los MFCC es que son una representación compacta del envolvente espectral de la señal de audio, lo cual es particularmente útil cuando se trata con grandes cantidades de datos de audio.
@@ -185,9 +185,13 @@ Por último, los enfoques actuales de aprendizaje profundo se basan en gran medi
     Los MFCC son una técnica poderosa de extracción de características para el procesamiento de señales de audio y voz y se han utilizado ampliamente en una variedad de aplicaciones, incluyendo el reconocimiento de voz, la clasificación de géneros musicales y más.
     Uno de los enfoques más populares y efectivos para abordar el problema de clasificación de géneros musicales es utilizar estos coeficientes cepstrales de frecuencia mel (MFCC) como características para representar las señales de audio.
 
-\section {Analisis del estado del arte}
+\section {An\'alisis del estado del arte}
 \subsection {CNN-MFCC model}
-Estado del arte de MFCC, Analisis. TODO
+\``Machine Learning and Deep Learning methods for music genre Classification'`\cite{Machine Learning and Deep Learning methods for music genre Classification} de Ruslan Gokhman es un artículo de investigación que compara el rendimiento de diferentes arquitecturas de redes neuronales profundas para la clasificación de géneros musicales. [3]
+En su estudio, Ruslan compara el rendimiento de varias arquitecturas de redes neuronales profundas en una tarea de clasificación de géneros musicales. Utiliza como conjunto de datos la dataset GTZAN. Ruslan eval\'ua el rendimiento de 2 tipos arquitecturas de redes neuronales profundas: redes neuronales convolucionales (CNN) y redes neuronales recurrentes (RNN).
+
+Se aprecia que la arquitectura CNN supera a la mayor parte del resto de las arquitecturas obteniendo un accuracy de 0.84.
+Resultados como este sugiere que las CNN pueden ser particularmente adecuadas para esta tarea de clasificaci\'on de audios.
 
 \section {Features}
 \subsection {CNN-MFCC model}
@@ -240,7 +244,7 @@ La arquitectura de una CNN se compone de varias capas de procesamiento, incluyen
 \subsection {CNN-MFCC model}
 Tras dividir la case de datos de forma equivalente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 épocas de entrenamiento un accuracy de $0.7879$ para datos de prueba, $0.7699$ para datos de validación, $0.9786$ para datos de entrenamiento.
 
-Se muestran en los siguientes gráficos los resultados del entrenamiento en el transcurso de las épocas. Se puede apreciar que cuando los datos de entrenamiento "pierden" el sobreajuste, los datos de validación por lo general mejoran el resultado. En esos picos se nota cómo el modelo generaliza mejor.
+Se muestran en los siguientes gráficos los resultados del entrenamiento en el transcurso de las épocas. Se puede apreciar que cuando los datos de entrenamiento pierden el sobreajuste, los datos de validación por lo general mejoran el resultado. En esos picos se nota cómo el modelo generaliza mejor.
   \begin{figure}
   \includegraphics{CNN_accuracy.png}
   \end{figure}
