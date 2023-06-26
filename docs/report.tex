@@ -238,7 +238,7 @@ La arquitectura de una CNN se compone de varias capas de procesamiento, incluyen
 
 \section{Resultados}
 \subsection {CNN-MFCC model}
-Tras dividir la case de datos de forma eficiente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 épocas de entrenamiento un accuracy de $0.767$ para datos de prueba, $0.819$ para datos de validación, $0.974$ para datos de entrenamiento.
+Tras dividir la case de datos de forma equivalente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 épocas de entrenamiento un accuracy de $0.7879$ para datos de prueba, $0.7699$ para datos de validación, $0.9786$ para datos de entrenamiento.
 
 Se muestran en los siguientes gráficos los resultados del entrenamiento en el transcurso de las épocas. Se puede apreciar que cuando los datos de entrenamiento "pierden" el sobreajuste, los datos de validación por lo general mejoran el resultado. En esos picos se nota cómo el modelo generaliza mejor.
   \begin{figure}
@@ -248,6 +248,14 @@ Se muestran en los siguientes gráficos los resultados del entrenamiento en el t
   \includegraphics{CNN_loss.png}
   \end{figure}
 
+También se reporta una matriz de confusión para comprobar
+el comportamiento en cada género. Se observa que no
+se desempeña de la misma forma en todos los géneros,
+ya que hay algunos (como el country) donde se
+observan mejores resultados que en otros( reggae )
+\begin{figure}
+\includegraphics{CNN_confusion.png}
+\end{figure}
   
 	\section{Wavelets}
 
