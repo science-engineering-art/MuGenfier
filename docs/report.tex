@@ -95,7 +95,7 @@
 	\normalsize\textsc{Leandro Rodr\'iquez Llosa  C-411}\\
 	\normalsize\textsc{Victor Manuel Amador Sosa C-412}\\
 	\normalsize\textsc{Francisco Ayra Caceres C-412}\\
-	\normalsize\textsc{Ra\'ul Beltr\'an G\ómez C-412}\\
+	\normalsize\textsc{Ra\'ul Beltr\'an G\'omez C-412}\\
 	\normalsize\textsc{Niley Gonz\'alez Ferrales  C-411}\\
 	\normalsize\textsc{Arian Pazo Valido  C-311} \\[2ex]
 	\small Cuarto a\~no. Ciencias de la Computaci\'on. \\ % institution
@@ -322,35 +322,34 @@ La clasificación de géneros basada en la Transformada de Fourier, utilizando M
 Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  empíricamente muestra el mejor comportamiento en muchas aplicaciones\cite{Wavelet Transform for Music Genre Classification}. Experimentamos con distintos órdenes de Daubechies wavelet, y db12 mostró el mejor comportamiento. Los mejores resultados para DWT fueron obtenidos con Random Forest; utilizando como parámetros: \emph{n\_estimators=100}, \emph{max\_depth=13}, \emph{bootstrap=False}. La precisión con este modelo se ubicaba alrededor de $0.77$. \\
 
 	\begin{figure}[h!] % Start the main figure environment
-			\centering
-			\begin{subfigure}{0.45\linewidth} % First subfloat environment
-					\includegraphics[width=4cm]{images/CV_DWT_gb.png}
-					\caption{DWT Gradient Boosting}
-				\end{subfigure}
-			\hskip 1em plus 1fill minus 1fil
-			\begin{subfigure}{0.45\linewidth} % Second subfloat environment
-					\includegraphics[width=4cm]{images/CV_DWT_rf.png}
-					\caption{DWT Random Forest}
-				\end{subfigure}
-			\caption{DWT Cross-Validation}
-		\end{figure}
+		\centering
+		\begin{subfigure}{0.45\linewidth} % First subfloat environment
+			\includegraphics[width=4cm]{images/CV_DWT_gb.png}
+			\caption{DWT Gradient Boosting}
+		\end{subfigure}
+		\begin{subfigure}{0.45\linewidth} % Second subfloat environment
+			\includegraphics[width=4cm]{images/CV_DWT_rf.png}
+			\caption{DWT Random Forest}
+		\end{subfigure}
+		\caption{DWT Cross-Validation}
+	\end{figure}
 
 La Transformada Wavelet Compleja de Doble Árbol, mostró los mejores resultados con 17 niveles de descomposición para extraer los coeficientes wavelet. Se comporta mejor que DWT, alcanzando más de $0.8$ de precisión con Random Forest Classifier.  
 
 Además de las imagenes del Cross-Vlidation también reportamos una matriz de confusión para comprobar el comportamiento en cada género. Se observa que no se desempeña de la misma forma en todos los géneros, ya que hay algunos (como el metal o el jazz) donde se observan muy buenos resultados. \\
 
 	\begin{figure}[h!] % Start the main figure environment
-			\centering
-			\begin{subfigure}{0.45\linewidth} % First subfloat environment
-		
-				\includegraphics[width=4cm]{images/CV_DTCWT_gb.png}                   \caption{DTCWT Gradient Boosting}
-				\end{subfigure}
-			\hskip 1em plus 1fill minus 1fil
-			\begin{subfigure}{0.45\linewidth} % Second subfloat environment
-					\includegraphics[width=4cm]{images/CV_DTCWT_rf.png}                   \caption{DTCWT Random Forest}
-				\end{subfigure}
-			\caption{DTCWT Cross-Validation}
-		\end{figure}
+		\centering
+		\begin{subfigure}{0.45\linewidth} % First subfloat environment
+			\includegraphics[width=4cm]{images/CV_DTCWT_gb.png}                   
+			\caption{DTCWT Gradient Boosting}
+		\end{subfigure}
+		\begin{subfigure}{0.45\linewidth} % Second subfloat environment
+			\includegraphics[width=4cm]{images/CV_DTCWT_rf.png}                  
+			\caption{DTCWT Random Forest}
+		\end{subfigure}
+		\caption{DTCWT Cross-Validation}
+	\end{figure}
 
 \begin{figure}[h!] 
 	\centering    
