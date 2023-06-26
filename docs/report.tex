@@ -178,12 +178,15 @@ Por último, los enfoques actuales de aprendizaje profundo se basan en gran medi
 
 \section {An\'alisis del problema}
 \subsection {CNN-MFCC model}
-    El problema que se pretende resolver es la clasificaci\'on de g\'eneros musicales utilizando redes neuronales convolucionales como modelo de aprendizaje y el feature MFCC como caracter\'istica extraida de los audios.
-    Los MFCC se utilizan comúnmente en el procesamiento de señales de audio y voz para extraer características que se pueden utilizar en diversas aplicaciones, como el reconocimiento de voz y la clasificación de géneros musicales. Se basan en la observación de que el sistema auditivo humano es más sensible a los cambios de frecuencia en las frecuencias más bajas en comparación con las frecuencias más altas. La escala de frecuencia Mel es una transformación no lineal de la frecuencia que aproxima la respuesta del sistema auditivo humano al sonido. La razón por la que se utilizan los MFCC es que son una representación compacta del envolvente espectral de la señal de audio, lo cual es particularmente útil cuando se trata con grandes cantidades de datos de audio.
-    Uno de los enfoques más populares y efectivos para abordar la clasificación de géneros musicales es utilizar los coeficientes cepstrales de frecuencia mel (MFCC) como características para representar las señales de audio.
+El problema que se pretende resolver es la clasificaci\'on de g\'eneros musicales utilizando redes neuronales convolucionales como modelo de aprendizaje y el feature MFCC como caracter\'istica extraida de los audios.
+Los MFCC se utilizan comúnmente en el procesamiento de señales de audio y voz para extraer características que se pueden utilizar en diversas aplicaciones, como el reconocimiento de voz y la clasificación de géneros musicales. Se basan en la observación de que el sistema auditivo humano es más sensible a los cambios de frecuencia en las frecuencias más bajas en comparación con las frecuencias más altas. La escala de frecuencia Mel es una transformación no lineal de la frecuencia que aproxima la respuesta del sistema auditivo humano al sonido. La razón por la que se utilizan los MFCC es que son una representación compacta del envolvente espectral de la señal de audio, lo cual es particularmente útil cuando se trata con grandes cantidades de datos de audio.
+Uno de los enfoques más populares y efectivos para abordar la clasificación de géneros musicales es utilizar los coeficientes cepstrales de frecuencia mel (MFCC) como características para representar las señales de audio.
 
-    Los MFCC son una técnica poderosa de extracción de características para el procesamiento de señales de audio y voz y se han utilizado ampliamente en una variedad de aplicaciones, incluyendo el reconocimiento de voz, la clasificación de géneros musicales y más.
-    Uno de los enfoques más populares y efectivos para abordar el problema de clasificación de géneros musicales es utilizar estos coeficientes cepstrales de frecuencia mel (MFCC) como características para representar las señales de audio.
+Los MFCC son una técnica poderosa de extracción de características para el procesamiento de señales de audio y voz y se han utilizado ampliamente en una variedad de aplicaciones, incluyendo el reconocimiento de voz, la clasificación de géneros musicales y más.
+Uno de los enfoques más populares y efectivos para abordar el problema de clasificación de géneros musicales es utilizar estos coeficientes cepstrales de frecuencia mel (MFCC) como características para representar las señales de audio.
+
+\subsection {Autoencoder}
+Una de las ideas implementadas para hacer uno de los clasificadores de nuestro ensemble combina análisis de la letra con un embedding y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta combinación de features.
 
 \section {An\'alisis del estado del arte}
 \subsection {CNN-MFCC model}
@@ -193,9 +196,12 @@ En su estudio, Ruslan compara el rendimiento de varias arquitecturas de redes ne
 Se aprecia que la arquitectura CNN supera a la mayor parte del resto de las arquitecturas obteniendo un accuracy de 0.84.
 Resultados como este sugiere que las CNN pueden ser particularmente adecuadas para esta tarea de clasificaci\'on de audios.
 
+\subsection {Autoencoder}
+Como realmente no se pretendía lograr obtener resultados directamente a partir del encoder, se investigó en la dirección de autoencoders de imágenes y autoencoders en general. Principalmente utilizando ideas de \textit{An Introduction to Autoencoders} \cite{michelucci2022introduction} y \textit{Autoencoders} \cite{bank2021autoencoders}.
+
 \section {Features}
 \subsection {CNN-MFCC model}
-Para el entrenamiento de este modelo se utiliza el feature MFCC. Este feature es una caracter\'istica extraida de los audios popularmente utilizado para el an\'alisis de los mismos.
+Para el entrenamiento de este modelo se utiliza el feature MFCC. Este feature es una caracter\'istica extra\'ida de los audios popularmente utilizado para el an\'alisis de los mismos.
 
 La razón por la que se utilizan los MFCC para entrenar el modelo es que son una representación compacta del espectro de la señal de audio, lo que es particularmente útil cuando se trabaja con grandes cantidades de datos de audio. Para calcular los MFCC, primero se segmenta la señal de audio en marcos cortos y se aplican una serie de operaciones matemáticas a cada marco, incluyendo preénfasis, enventanamiento, transformada de Fourier y compresión logarítmica, que juntas crean un conjunto de características que capturan las características más importantes de la señal de audio.
 
@@ -203,15 +209,19 @@ Los MFCC se pueden representar como una matriz donde cada fila corresponde a un 
 
 Para la extracci\'on de MFCC en la pr\'actica se utiliza la biblioteca de python librosa, la misma posee m\'odulos espec\'ificos para la extracci\'on de la caracter\'istica MFCC de un audio.
 
+\subsection {Embedding MFCC (autoencoder)}
+Para el entrenamiento del modelo de VisionLang se usa el feature Embedding MFCC, que se halla a partir de pasar la feature MFCC anteriormente mencionada por el encoder generado a partir del autoencoder. Esta feature asocia a cada canción a partir de su MFCC una representación compacta, solo $500$ dimensiones, de su música intentando guardar la mayor cantidad de información posible de la misma.
+
 \section{modelos}
 \subsection {CNN-MFCC model}
 Nuestro modelo se basa en redes neuronales convolucionales para tratar con las imágenes de MFCC. Estas redes están diseñadas específicamente para detectar patrones y características en imágenes, lo que las hace muy útiles en problemas de clasificación y reconocimiento de objetos. Las redes neuronales convolucionales son muy útiles para el procesamiento de imágenes porque son capaces de aprender patrones y características de manera automática. Esto significa que no se necesita un conocimiento experto para diseñar los filtros o características que se utilizan para procesar las imágenes, ya que la red es capaz de aprenderlos a partir de los datos de entrenamiento.
 
 La arquitectura de una CNN se compone de varias capas de procesamiento, incluyendo capas de convolución y de pooling que permiten extraer características relevantes de las imágenes de entrada. La capa de convolución es la que aplica un filtro o kernel a la imagen de entrada para detectar patrones específicos, como bordes, líneas o texturas. La capa de pooling reduce la resolución de la imagen de salida, lo que ayuda a reducir el número de parámetros que deben entrenarse y a evitar el sobreajuste. También se usan capas independientemente de la necesidad del modelo, como capas para aplanar las imágenes a un vector, capas densas para pasarle lo que se detecto en las anteriores y ajustar pesos, y capas de activación.\\
 
+
 \textbf{\large Arquitectura de capas del modelo}
 \begin{itemize}
-\item Capa de entrada input: recibe la la imagen con tamaño 256x192 y 3 filtros RGB.(256,192,3).
+	\item Capa de entrada input: recibe la la imagen con tamaño 256x192 y 3 filtros RGB.(256,192,3).
 
 \item Capa Conv2D: recibe la capa input anterior y devuelve datos de tamaño (256,192,64), aplica 64 filtros a la imagen.
 
@@ -242,6 +252,42 @@ La arquitectura de una CNN se compone de varias capas de procesamiento, incluyen
 	\includegraphics[width=8cm]{CNN.png}
 	\caption{CNN Model}
 \end{figure}
+\subsection {Autoencoder y encoder}
+Para construir el encoder se programó un autoencoder y se tomó el modelo hasta el bottleneck para sacar el encoder. La arquitectura del autoencoder combinó capas maxpooling y upsampling al inicio y al final respectivamente para moderar el tamaño la imagen, intercaladas con capas convolucionales y en el medio tuvo un par de capas densas para aprovechar que ya el número de dimensiones era relativamente pequeño y realizar un poco más de aprendizaje. La arquitectura en detalle es la siguente:
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{ | c | c | c |}
+			\hline
+			\textbf{Nombre de la capa} & \textbf{Tipo de la capa} & \textbf{Shape de salida} \\ \hline
+			$input_l$ & Input & (192, 256, 3) \\ \hline
+			$maxp_{ini}$ & MaxPooling2D & (96, 128, 3) \\ \hline
+			$encoding_1$ & Conv2D & (96, 128, 12) \\ \hline
+			$maxp_1$ & MaxPooling2D & (48, 64, 12) \\ \hline
+			$encoding_2$ & Conv2D & (48, 64, 6) \\ \hline
+			$maxp_2$ & MaxPooling2D & (24, 32, 6) \\ \hline
+			$encoding_3$ & Conv2D & (24, 32, 3) \\ \hline
+			$flat_1$ & Flatten & (2304) \\ \hline
+			$bottleneck$ & Dense & (500) \\ \hline
+			$decoding_1$ & Dense & (2304) \\ \hline
+			$resh_1$ & Reshape & (24, 32, 3) \\ \hline
+			$decoding_2$ & Conv2D & (24, 32, 6) \\ \hline
+			$Up_1$ & UpSampling2D & (48, 64, 6) \\ \hline
+			$decoding_3$ & Conv2D & (48, 64, 12) \\ \hline
+			$Up_2$ & UpSampling2D & (96, 128, 12) \\ \hline
+			$decoding_4$ & Conv2D & (96, 128, 3) \\ \hline
+			$output_l$ & UpSampling2D & (192, 256, 3) \\
+			\hline
+		\end{tabular}
+		\caption{Arquitectura del autoencoder.}
+		\label{tabla:2}
+	\end{center}
+\end{table}
+
+Como se puede observar la arquitectura es casi simétrica.
+
+Se tomó como función de pérdida y métrica el error cuadrático medio ($\textit{mean squared error}$). La entrada del autoencoder y la salida esperada fueron las imágenes del feature MFCC del conjunto de entrenamiento luego de haber sido normalizadas, es decir, que en vez de estar en el rango $[0, 255]$ cada valor de la imagen de entrada, los representamos en el rango $[0, 1]$. 
+
+Se probaron otras arquitecturas, desde algunas que no tenían capas densas hasta otras que principalmente consistían en capas densas. El problema en las arquitecturas carentes de capas densas era que sus resultados no eran lo suficientemente buenos, es decir, debido a su relativamente baja cantidad de parámetros el nivel de aprendizaje que podían lograr era inferior al que se logró luego con arquitecturas con capas densas. Por otro lado, las arquitecturas que consistían principalmente en capas densas tenían problemas como que los modelos eran muy grandes, algunos pasando de los GiB de almacenamiento y presentaban un problema para nosotros a la hora del entrenamiento. Otro problema que tienen las arquitecturas más basadas en capas densas es su tendencia al overfitting. En las prueba realizadas, las arquitecturas carentes de capas densas no presentaban este tipo de problema ya que los resultados en los conjuntos de entrenamiento, test y validación tenían poca diferencia entre ellos, sin embargo en las arquitecturas que tenían capas densas, por el gran número de parámetros si se evidencia una diferencia sustancial entre los resultados en los conjuntos de entrenamiento, y los obtenidos en los de prueba y validación. 
 
 \section{Resultados}
 \subsection {CNN-MFCC model}
@@ -293,6 +339,26 @@ rock & 0.551 \\ \hline
 \caption{Precisión de clasificación por género musical.}
 \label{tabla:1}
 \end{table}
+
+\subsection{Autoencoder}
+Al entrenar se realizó un $save$ cada $10$ epochs. Veamos los resultados sobre el número del $save$ en el modelo de autoencoder presentado:
+
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[width=5cm]{overfitting_graph.png}
+		\caption{Gráfica de error del modelo contra número de épocas del entrenamiento.}
+	\end{center}
+\end{figure}
+
+A partir del análisis de la gráfica anterior se tomó como cantidad de epochs a ejecutar la cantidad de $150$, ya que se conjeturó (y luego validó) que el comportamiento del modelo en el conjunto de prueba sería muy similar al comportamiento en el conjunto de validación y en este punto es que se obtiene un mejor performance en el conjunto de prueba. 
+
+Volviendo atrás, los resultados obtenidos para cada tipo de modelo:
+\begin{itemize}
+	\item los modelos que no tenían capas densas lograron primeramente un error (MSE) de $0.0025$ y luego de ampliar la   cantidad de dimensiones que salen del bottleneck, es decir la cantidad de dimensiones de la representación se logró $0.0021$. Estos modelos tenían muy poco overfitting luego de $500$ epochs.
+	\item los modelos que presentan capas densas, por su parte, comenzaron con resultados en el conjunto de entrenamiento de hasta $0.0011$ con $500$ epochs, lo cual era muy bueno pero podía implicar overfitting. A medida que se redujeron la cantidad de parámetros (de $288$ millones a los $2.3$ millones del modelo propuesto) los resultados en el conjunto de entrenamiento fueron peores pero nunca sobrepasaron el valor de $0.0013$ en $500$ epochs. Luego de correr el modelo propuesto solo $150$ epochs se obtuvieron los mejores resultados tanto en el conjunto de prueba como en el validación, oscilando alrededor de $0.00185$, por su lado en el conjunto de entrenamiento se obtuvieron resultados alrededor de $0.0016$, lo que evidencia la presencia de overfitting.
+\end{itemize}
+
+Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados anteriormente descritos. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
 
 \section{Ensemble}
 \textbf{\large An\'alisis del modelo}
@@ -425,61 +491,6 @@ Inicialmente, concebimos el entrenamiento del modelo trabajando directamente con
 \section{Modelo VisionLang}
 
 Hasta ahora hemos implementado algunas de las ideas m\'as exitosas para clasificar g\'eneros musicales que se pueden encontrar en el estado del arte. Pero resulta que ninguna de estas hace uso de la letra de la canci\'on, la cu\'al sabemos intuitivamente que puede aportar bastante informaci\'on sobre el g\'enero de la canci\'on. Por tanto, una idea implementada en este trabajo es hacer un modelo clasificador que conste de una red neuronal que combina análisis de la letra, mediante un embedding que represente a la misma, y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta combinación de features. Al mismo lo llamamos como VisionLang.
-
-\subsection{Autoencoder}
-Una de las ideas implementadas para hacer uno de los clasificadores de nuestro ensemble combina análisis de la letra con un embedding y de la música con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta conbinación de features. \\
-Para construir el encoder se programó un autoencoder y se tomó el modelo hasta el bottleneck para sacar el encoder. La arquitectura del autoencoder combinó capas maxpooling y upsampling al inicio y al final respectivamente para moderar el tamaño la imagen, intercaladas con capas convolucionales y en el medio tuvo un par de capas densas para aprovechar que ya el número de dimensiones era relativamente pequeño y realizar un poco más de aprendizaje. La arquitectura en detalle es la siguente:
-\begin{table}
-	\begin{center}
-		\begin{tabular}{ | c | c | c |}
-			\hline
-			\textbf{Nombre de la capa} & \textbf{Tipo de la capa} & \textbf{Shape de salida} \\ \hline
-			$input_l$ & Input & (192, 256, 3) \\ \hline
-			$maxp_{ini}$ & MaxPooling2D & (96, 128, 3) \\ \hline
-			$encoding_1$ & Conv2D & (96, 128, 12) \\ \hline
-			$maxp_1$ & MaxPooling2D & (48, 64, 12) \\ \hline
-			$encoding_2$ & Conv2D & (48, 64, 6) \\ \hline
-			$maxp_2$ & MaxPooling2D & (24, 32, 6) \\ \hline
-			$encoding_3$ & Conv2D & (24, 32, 3) \\ \hline
-			$flat_1$ & Flatten & (2304) \\ \hline
-			$bottleneck$ & Dense & (500) \\ \hline
-			$decoding_1$ & Dense & (2304) \\ \hline
-			$resh_1$ & Reshape & (24, 32, 3) \\ \hline
-			$decoding_2$ & Conv2D & (24, 32, 6) \\ \hline
-			$Up_1$ & UpSampling2D & (48, 64, 6) \\ \hline
-			$decoding_3$ & Conv2D & (48, 64, 12) \\ \hline
-			$Up_2$ & UpSampling2D & (96, 128, 12) \\ \hline
-			$decoding_4$ & Conv2D & (96, 128, 3) \\ \hline
-			$output_l$ & UpSampling2D & (192, 256, 3) \\
-			\hline
-		\end{tabular}
-		\caption{Arquitectura del autoencoder.}
-		\label{tabla:2}
-	\end{center}
-\end{table}
-
-Como se puede observar la arquitectura es casi simétrica.
-
-Se tomó como función de pérdida y métrica el error cuadrático medio ($\textit{mean squared error}$). La entrada del autoencoder y la salida esperada fueron las imágenes del feature MFCC del conjunto de entrenamiento luego de haber sido normalizadas, es decir, que en vez de estar en el rango $[0, 255]$ cada valor de la imagen de entrada, los representamos en el rango $[0, 1]$. 
-
-Anteriormente se probaron otras arquitecturas, desde algunas que no tenían capas densas hasta otras que principalmente consistían en capas densas. El problema en las arquitecturas carentes de capas densas era que sus resultados no eran lo suficientemente buenos, es decir, debido a su relativamente baja cantidad de parámetros el nivel de aprendizaje que podían lograr era inferior al que se logró luego con arquitecturas con capas densas. Por otro lado, las arquitecturas que consistían principalmente en capas densas tenían problemas como que los modelos eran muy grandes, algunos pasando de los GiB de almacenamiento y presentaban un problema para nosotros a la hora del entrenamiento. Otro problema que tienen las arquitecturas más basadas en capas densas es su tendencia al overfitting. En las prueba realizadas, las arquitecturas carentes de capas densas no presentaban este tipo de problema ya que los resultados en los conjuntos de entrenamiento, test y validación tenían poca diferencia entre ellos, sin embargo en las arquitecturas que tenían capas densas, por el gran número de parámetros si se evidencia una diferencia sustancial entre los resultados en los conjuntos de entrenamiento, y los obtenidos en los de prueba y validación. Al entrenar se realizó un $save$ cada $10$ epochs. Veamos los resultados sobre el número del $save$ en el modelo de autoencoder presentado:
-
-\begin{figure}[h!]
-	\begin{center}
-		\includegraphics[width=5cm]{overfitting_graph.png}
-		\caption{Gráfica de error del modelo contra número de épocas del entrenamiento.}
-	\end{center}
-\end{figure}
-
-A partir del análisis de la gráfica anterior se tomó como cantidad de epochs a ejecutar la cantidad de $150$, ya que se conjeturó (y luego validó) que el comportamiento del modelo en el conjunto de prueba sería muy similar al comportamiento en el conjunto de validación y en este punto es que se obtiene un mejor performance en el conjunto de prueba. 
-
-Volviendo atrás, los resultados obtenidos para cada tipo de modelo:
-\begin{itemize}
-	\item los modelos que no tenían capas densas lograron primeramente un error (MSE) de $0.0025$ y luego de ampliar la   cantidad de dimensiones que salen del bottleneck, es decir la cantidad de dimensiones de la representación se logró $0.0021$. Estos modelos tenían muy poco overfitting luego de $500$ epochs.
-	\item los modelos que presentan capas densas, por su parte, comenzaron con resultados en el conjunto de entrenamiento de hasta $0.0011$ con $500$ epochs, lo cual era muy bueno pero podía implicar overfitting. A medida que se redujeron la cantidad de parámetros (de $288$ millones a los $2.3$ millones del modelo propuesto) los resultados en el conjunto de entrenamiento fueron peores pero nunca sobrepasaron el valor de $0.0013$ en $500$ epochs. Luego de correr el modelo propuesto solo $150$ epochs se obtuvieron los mejores resultados tanto en el conjunto de prueba como en el validación, oscilando alrededor de $0.00185$, por su lado en el conjunto de entrenamiento se obtuvieron resultados alrededor de $0.0016$, lo que evidencia la presencia de overfitting.
-\end{itemize}
-
-Se realizó también cross validation con Kfold dividiendo todo el conjunto de entrenamiento en $10$ subconjuntos. Los resultados del cross validation coincidieron con los resultados anteriormente descritos. Este test se hizo luego de haber fijado la cantidad de epochs en $150$.
 
 \subsection{Feature: Letra de la canci\'on}
 
