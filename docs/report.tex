@@ -410,7 +410,7 @@ El c\'odigo se divide en varias partes:
 \subsection{Comentarios}
 Sin embargo, cabe mencionar que, aunque el modelo est\'a inspirado en la arquitectura ResNet, la implementaci\'on en el c\'odigo no incluye las conexiones de atajo (shortcut connections) que caracterizan a ResNet. Estas conexiones permiten que las se\~nales pasen directamente a trav\'es de la red, ayudando a combatir el problema del desvanecimiento del gradiente durante el entrenamiento de redes profundas. A pesar de la ausencia de estas conexiones, el modelo a\'un puede ser efectivo para la tarea de clasificaci\'on de g\'eneros de m\'usica. Los trabajos futuros podr\'ian considerar la implementaci\'on de las conexiones de atajo para recrear m\'as fielmente la arquitectura ResNet y potencialmente mejorar el rendimiento.
 
-\subsection*{Integraci\'on en Google Colab}
+\subsection*{Integraci\'on de Conv1D en Google Colab}
 
 El ensamblaje del modelo de entrenamiento que implementamos de Red Neuronal Convolucional 1D, o Conv1D, fue realizado en Google Colab. Este proceso fue necesario debido a la falta de recursos para el entrenamiento de la estructura de datos necesaria. Tambi\'en nos beneficiamos de la capacidad de Google Colab para manejar las multiplicaciones de inmensas matrices que se realizan durante los algoritmos de propagaci\'on hacia adelante y hacia atr\'as en el entrenamiento de la red.
 
@@ -441,7 +441,16 @@ La descarga se realiza desde Kaggle, una plataforma que proporciona una gran can
 
 \subsection*{4. Entrenamiento del modelo}
 
-Inicialmente, concebimos el entrenamiento del modelo trabajando directamente con los audios. Sin embargo, al investigar la clasificaci\'on de g\'eneros musicales y trabajar con m\'usica en general, optamos por trabajar con histogramas de las canciones. Aunque dejamos ambos enfoques en el modelo, es importante solo ejecutar uno de los dos. Las instrucciones detalladas para el entrenamiento del modelo se encuentran en el notebook.
+Inicialmente, concebimos el entrenamiento del modelo trabajando directamente con los audios. Sin embargo, al investigar la clasificaci\'on de g\'eneros musicales y trabajar con m\'usica en general, optamos por trabajar con espectrogramas de las canciones. Aunque dejamos ambos enfoques en el modelo, es importante solo ejecutar uno de los dos. Las instrucciones detalladas para el entrenamiento del modelo se encuentran en el notebook.
+
+\subsection*{Utilizaci\'on del modelo Conv1D para entrenar con espectrogramas}
+Utilizamos el mismo modelo para entrenar con los espectrogramas de las canciones en espera de mejores resultados. La forma que usamos para pasar los espectrogramas como entrada al modelo es obtener un gran arreglo lineal de la imagen poniendo las filas de p\'ixeles de la imagen, una a continuaci\'on de la otra.
+Para cargar dichas im\'agenes o espectrogramas usamos en lugar de `librosa`: `opencv`
+\subsection*{Resultados}
+Obtuvimos como resultado, un bajo nivel de accuracy (11\%) en ambos modelos, pero recalcamos que por cuestiones de eficiencia tuvimos que redise\~nar la red en cuanto a n\'umero de neuronas por capa y cantidad de bloques residuales, reduciendo ambos a un n\'umero considerablemente peque\~no e insignificante con respecto al  tama\~no de los datos de entrada de la red. Todo esto influy\'o sustancialmente en la exactitud de los modelos. 
+\begin{figure}[h!]
+	\includegraphics[width=5cm]{Conv1D_accuracy.png}
+\end{figure}
 
 \section{Modelo VisionLang}
 
