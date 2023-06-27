@@ -470,19 +470,26 @@ Una vez obtenidos los dos embedding correspondientes a la letra de la canci\'on 
 Como podemos ver en la siguiente gr\'afica el valor de accuracy de nuestro modelo para el training set es casi perfecto llegados al epoch n\'umero $300$. En el caso del conjunto de  datos de validaci\'on, que es el que nos da la efectividad de nuestro modelo, vemos que el accuracy crece r\'apidamente hasta llegar al valor $0.57$ alrededor del epoch $150$.
 
 \begin{figure}[h!]
-	\includegraphics[width=5cm]{vl_accuracy.png}
+	\centering
+	\includegraphics[width=6cm]{vl_accuracy.png}
+	\caption{Gr\'afico de precisi\'on}
 \end{figure}
 
 Con m\'as capas y neuronas en nuestro modelo, este hac\'ia r\'apidamente overfitting, o sea en pocos epochs. Esto nos llev\'o a reducirlo a la arquitectura actual. Como podemos observar en la pr\'oxima gr\'afica la funci\'on de p\'erdida para los datos entrenantes decrece r\'apidamente acerc\'andose mucho a cero en el epoch $300$. En el caso de los datos de validaci\'on, vemos como a partir del epoch $100$ la red comienza a hacer overfitting, pero no es representativo. 
 
 \begin{figure}[h!]
-	\includegraphics[width=5cm]{vl_loss.png}
+	\centering
+	\includegraphics[width=6cm]{vl_loss.png}
+	\caption{Gr\'afico de funci\'on de p\'erdida}
 \end{figure}
 
 %Presentamos aqu\'i adem\'as la matriz de confusi\'on.
 
 \begin{figure}[h!]
-	\includegraphics[width=5cm]{vl_confussion_matrix.png}
+	
+	\centering
+	\includegraphics[width=6cm]{vl_confussion_matrix.png}
+	\caption{Matriz de Confusi\'on}
 \end{figure}
 
 Finalmente con un accuracy de $0.57$ y con valor para la funci\'on de p\'erdida de  $2.9323$ llegamos a la conclusi\'on de que este modelo no arroja resultados que mejoren los obtenidos en los modelos ya vistos antes.
