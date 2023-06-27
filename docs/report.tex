@@ -209,6 +209,12 @@ Los MFCC se pueden representar como una matriz donde cada fila corresponde a un 
 
 Para la extracci\'on de MFCC en la pr\'actica se utiliza la biblioteca de python librosa, la misma posee m\'odulos espec\'ificos para la extracci\'on de la caracter\'istica MFCC de un audio.
 
+\begin{figure}[h!] % Start the main figure environment
+	\centering
+	\includegraphics[width=8cm]{mfcc.png}
+	\caption{MFCC sample image}
+\end{figure}
+
 \subsection {Embedding MFCC (autoencoder)}
 Para el entrenamiento del modelo de VisionLang se usa el feature Embedding MFCC, que se halla a partir de pasar la feature MFCC anteriormente mencionada por el encoder generado a partir del autoencoder. Esta feature asocia a cada canción a partir de su MFCC una representación compacta, solo $500$ dimensiones, de su música intentando guardar la mayor cantidad de información posible de la misma.
 
