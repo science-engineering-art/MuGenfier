@@ -155,7 +155,7 @@ La clasificaci\'on de g\'eneros musicales juega un papel crucial en las aplicaci
 
 		\vspace{1em}
 		\keywords{ 
-			aprendizaje autom\'atico \textbf{$\cdot$} clasificaci\'on \textbf{$\cdot$}  g\'eneros musicales \textbf{$\cdot$} MFCC  \textbf{$\cdot$} CNN  \textbf{$\cdot$} Conv1D \textbf{$\cdot$} transformada wavelet discreta \textbf{$\cdot$} transformada wavelet compleja de doble \'arbol  \textbf{$\cdot$} encoder  \textbf{$\cdot$} letra de canciones 
+			aprendizaje autom\'atico \textbf{$\cdot$} clasificaci\'on \textbf{$\cdot$}  g\'eneros musicales \textbf{$\cdot$} MFCC  \textbf{$\cdot$} CNN  \textbf{$\cdot$} Conv1D \textbf{$\cdot$} encoder  \textbf{$\cdot$} letra de canciones 
 		}
 
 	\end{abstract}
@@ -188,6 +188,7 @@ Uno de los enfoques m\'as populares y efectivos para abordar el problema de clas
 \subsection {Autoencoder}
 Una de las ideas implementadas para hacer uno de los clasificadores de nuestro ensemble combina an\'alisis de la letra con un embedding y de la m\'usica con un encoder. La idea de este modelo es concatenar los vectores resultantes de estos procesamientos y clasificar en base a esta combinaci\'on de features.
 
+
 \section {An\'alisis del estado del arte}
 \subsection {CNN-MFCC model}
 \textit{Machine Learning and Deep Learning methods for music genre Classification} \cite{Machine Learning and Deep Learning methods for music genre Classification} de Ruslan Gokhman es un art\'iculo de investigaci\'on que compara el rendimiento de diferentes arquitecturas de redes neuronales profundas para la clasificaci\'on de g\'eneros musicales. [3]
@@ -209,16 +210,16 @@ Los MFCC se pueden representar como una matriz donde cada fila corresponde a un 
 
 Para la extracci\'on de MFCC en la pr\'actica se utiliza la biblioteca de python librosa, la misma posee m\'odulos espec\'ificos para la extracci\'on de la caracter\'istica MFCC de un audio.
 
-\begin{figure}[h!] % Start the main figure environment
+\begin{figure}[h!] 
 	\centering
 	\includegraphics[width=8cm]{mfcc.png}
 	\caption{MFCC sample image}
 \end{figure}
 
 \subsection {Embedding MFCC (autoencoder)}
-Para el entrenamiento del modelo de VisionLang se usa el feature Embedding MFCC, que se halla a partir de pasar la feature MFCC anteriormente mencionada por el encoder generado a partir del autoencoder. Esta feature asocia a cada canci\'on a partir de su MFCC una representaci\'on compacta, solo $500$ dimensiones, de su m\'usica intentando guardar la mayor cantidad de informaci\'on posible de la misma.
+Para el entrenamiento del modelo de VisionLang se usa el feature Embedding MFCC, que se halla a partir de pasar la feature MFCC anteriormente mencionada por el encoder generado a partir del autoencoder. Esta feature asocia a cada canci\'on a partir de su MFCC una representaci\'on compacta, solo $500$ dimensiones, de su m\'usica intentando guardar la mayor cantidad de informaci\'on posible de la misma. 
 
-\section{modelos}
+\section{modelos} % Esta sección deber'ia llamarse mejor algo como metodología o experimentación.
 \subsection {CNN-MFCC model}
 Nuestro modelo se basa en redes neuronales convolucionales para tratar con las im\'agenes de MFCC. Estas redes est\'an dise\~nadas espec\'ificamente para detectar patrones y caracter\'isticas en im\'agenes, lo que las hace muy \'utiles en problemas de clasificaci\'on y reconocimiento de objetos. Las redes neuronales convolucionales son muy \'utiles para el procesamiento de im\'agenes porque son capaces de aprender patrones y caracter\'isticas de manera autom\'atica. Esto significa que no se necesita un conocimiento experto para dise\~nar los filtros o caracter\'isticas que se utilizan para procesar las im\'agenes, ya que la red es capaz de aprenderlos a partir de los datos de entrenamiento.
 
@@ -295,19 +296,20 @@ Se tom\'o como funci\'on de p\'erdida y m\'etrica el error cuadr\'atico medio ($
 
 Se probaron otras arquitecturas, desde algunas que no ten\'ian capas densas hasta otras que principalmente consist\'ian en capas densas. El problema en las arquitecturas carentes de capas densas era que sus resultados no eran lo suficientemente buenos, es decir, debido a su relativamente baja cantidad de par\'ametros el nivel de aprendizaje que pod\'ian lograr era inferior al que se logr\'o luego con arquitecturas con capas densas. Por otro lado, las arquitecturas que consist\'ian principalmente en capas densas ten\'ian problemas como que los modelos eran muy grandes, algunos pasando de los GiB de almacenamiento y presentaban un problema para nosotros a la hora del entrenamiento. Otro problema que tienen las arquitecturas m\'as basadas en capas densas es su tendencia al overfitting. En las prueba realizadas, las arquitecturas carentes de capas densas no presentaban este tipo de problema ya que los resultados en los conjuntos de entrenamiento, test y validaci\'on ten\'ian poca diferencia entre ellos, sin embargo en las arquitecturas que ten\'ian capas densas, por el gran n\'umero de par\'ametros si se evidencia una diferencia sustancial entre los resultados en los conjuntos de entrenamiento, y los obtenidos en los de prueba y validaci\'on. 
 
+
 \section{Resultados}
 \subsection {CNN-MFCC model}
 Tras dividir la case de datos de forma equivalente en 80\% para entrenar, 10\% para validar y 10\% para pruebas, se obtuvo como resultado de la anterior arquitectura tras 300 \'epocas de entrenamiento un accuracy de 0.7879 para datos de prueba, 0.7699 para datos de validaci\'on, 0.9786 para datos de entrenamiento.
 
 Se muestran en los siguientes gr\'aficos los resultados del entrenamiento en el transcurso de las \'epocas. Se puede apreciar que cuando los datos de entrenamiento pierden el sobreajuste, los datos de validaci\'on por lo general mejoran el resultado. En esos picos se nota c\'omo el modelo generaliza mejor.
 
-\begin{figure}[h!] % Start the main figure environment
+\begin{figure}[h!] 
 	\centering
 	\includegraphics[width=6cm]{CNN_accuracy.png}
 	\caption{CNN Accuracy}
 \end{figure}
 
-\begin{figure}[h!] % Start the main figure environment
+\begin{figure}[h!] 
 	\centering
 	\includegraphics[width=6cm]{CNN_loss.png}
 	\caption{CNN Loss}
@@ -388,59 +390,6 @@ Dado que la base de datos utilizada contiene una cantidad relativamente peque\~n
 \end{itemize}
 
 Al entrenar el modelo final con el 20\% de los datos restantes se obtuvo un accuray de 0.65, lo cual si bien no es mejor resultado que los modelos entrenados individualmente con un conjunto de datos m\'as amplio, es un resultado que nos indica que en trabajos futuros con datasets m\'as abarcadoras, o con una dataset ampliada que tenga suficientes datos para preentrenar bien los modelos base, el ensemble mejora los resultados de los modelos previamente entrenados aprendiendo de las fortalezas de cada uno de estos.
-
-	\section{Wavelets}
-
-La clasificaci\'on de g\'eneros basada en la Transformada de Fourier, utilizando MFCC y espectrogramas, se ha explorado con \'exito en los \'ultimos a\~nos. Aunque la Transformada de Fourier tiene una alta resoluci\'on en el dominio de la frecuencia, tiene una resoluci\'on cero en el dominio del tiempo. Esto significa que puede decirnos exactamente qu\'e frecuencias est\'an presentes en una se\~nal, pero no en qu\'e lugar en el tiempo se han producido \cite{wavelet transform in machine learning}. Un mejor enfoque para analizar se\~nales con un espectro de frecuencias din\'amico es la Transformada Wavelet. Esta tiene una alta resoluci\'on tanto en el dominio de la frecuencia como en el del tiempo. Adem\'as, la Transformada Wavelet puede proporcionar una resoluci\'on de frecuencia variable, lo que significa que puede adaptarse a diferentes escalas de tiempo y frecuencia. Esto puede ser \'util en la clasificaci\'on de g\'eneros musicales, donde ciertos g\'eneros pueden tener patrones r\'itmicos m\'as r\'apidos o lentos que otros \cite{Musical Genre Classification Of Audio Signals}. Por \'ultimo, la Transformada Wavelet, ya que utiliza pocos datos para representar una se\~nal puede ser \'util en la clasificaci\'on de g\'eneros musicales; donde el procesamiento de grandes cantidades de datos suele ser costoso en t\'erminos de tiempo y recursos computacionales. 
-
-	Proponemos dos m\'etodos de extracci\'on de caracter\'isticas usando varias formas de Transformadas Wavelet. 
-    El primero es la Transformada Wavelet Discreta (DWT) \cite{wavelet transform in machine learning} y el segundo la Transformada Wavelet Compleja de Doble \'arbol (DT-CWT) \cite{DT-CWT}.
-    
-    La DWT es un caso especial de Transformada Wavelet que proporciona una representaci\'on compacta de la se\~nal en el tiempo y la frecuencia que se puede calcular de manera eficiente\cite{Musical Genre Classification Of Audio Signals}. La DT-CWT es una mejora relativamente reciente a DWT; ya que para se\~nales moduladas complejas como el audio, DWT encuentra algunas pocas deficiencias: oscilaciones, varianza de desplazamiento, aliasing y falta de direccionalidad\cite{Wavelet Transform for Music Genre Classification}. 
-    
-    El pipeline para ambos m\'etodos consiste en calcular las respectivas caracter\'isticas para cada canci\'on del dataset. Luego con la matriz obtenida se realiza un split de $80\%$ - $20\%$ y se entrena el modelo de machine learning elegido. Ajustando los hiperpar\'ametros utilizando Cross-Validation.
-
-	\subsection{Tests}
-
-  Fueron probados varios modelos de machine learning tradicionales como Logistic Regression, SVC, Linear SVC, Random Forest Classifier y Gradient Boosting Classifier. Como los dos \'ultimos se comportan mejor respecto al resto, con una precisi\'on superior en un 10\%, decidimos enfocarnos en esos modelos . 
-
-Respecto a la Transformada Wavelet Discreta, Daubechies wavelet  emp\'iricamente muestra el mejor comportamiento en muchas aplicaciones\cite{Wavelet Transform for Music Genre Classification}. Experimentamos con distintos \'ordenes de Daubechies wavelet, y db12 mostr\'o el mejor comportamiento. Los mejores resultados para DWT fueron obtenidos con Random Forest; utilizando como par\'ametros: \emph{n\_estimators=100}, \emph{max\_depth=13}, \emph{bootstrap=False}. La precisi\'on con este modelo se ubicaba alrededor de $0.77$. \\
-
-	\begin{figure}[h!] % Start the main figure environment
-		\centering
-		\begin{subfigure}{0.45\linewidth} % First subfloat environment
-			\includegraphics[width=4cm]{images/CV_DWT_gb.png}
-			\caption{DWT Gradient Boosting}
-		\end{subfigure}
-		\begin{subfigure}{0.45\linewidth} % Second subfloat environment
-			\includegraphics[width=4cm]{images/CV_DWT_rf.png}
-			\caption{DWT Random Forest}
-		\end{subfigure}
-		\caption{DWT Cross-Validation}
-	\end{figure}
-
-La Transformada Wavelet Compleja de Doble \'arbol, mostr\'o los mejores resultados con 17 niveles de descomposici\'on para extraer los coeficientes wavelet. Se comporta mejor que DWT, alcanzando m\'as de $0.8$ de precisi\'on con Random Forest Classifier.  
-
-Adem\'as de las imagenes del Cross-Vlidation tambi\'en reportamos una matriz de confusi\'on para comprobar el comportamiento en cada g\'enero. Se observa que no se desempe\~na de la misma forma en todos los g\'eneros, ya que hay algunos (como el metal o el jazz) donde se observan muy buenos resultados. \\
-
-	\begin{figure}[h!] % Start the main figure environment
-		\centering
-		\begin{subfigure}{0.45\linewidth} % First subfloat environment
-			\includegraphics[width=4cm]{images/CV_DTCWT_gb.png}                   
-			\caption{DTCWT Gradient Boosting}
-		\end{subfigure}
-		\begin{subfigure}{0.45\linewidth} % Second subfloat environment
-			\includegraphics[width=4cm]{images/CV_DTCWT_rf.png}                  
-			\caption{DTCWT Random Forest}
-		\end{subfigure}
-		\caption{DTCWT Cross-Validation}
-	\end{figure}
-
-\begin{figure}[h!] 
-	\centering    
-	\includegraphics[width=6cm]{images/conf_matrix_DTCWT.png}    
-	\caption{DTCWT Random Forest Matriz de Confusi\'on}
-\end{figure}
 
 \section{Conv1D}
 Implementamos un modelo de red neuronal convolucional unidimensional (CNN 1D) para clasificar g\'eneros de m\'usica. El modelo se basa en la arquitectura de ResNet, una popular red neuronal convolucional utilizada para tareas de clasificaci\'on. La elecci\'on de una red 1D permite al modelo procesar directamente se\~nales de audio, lo que lo hace especialmente \'util para esta tarea de clasificaci\'on de g\'eneros musicales.
