@@ -448,3 +448,5 @@ src/model/models/best_model.keras
 *.bin
 *.npy
 *.wav
+
+gtzan
